@@ -9,7 +9,7 @@ function App() {
       <DoseChart/>
     </div>
     <p>
-      Percentage of a country that has been at least one dose of a Covid-19 vaccine. 
+      Percentage of people in a country that has had at least one dose of a Covid-19 vaccine. 
       Data from <a href="https://github.com/owid/covid-19-data">Our World in Data</a>.
     </p>
     </div>
