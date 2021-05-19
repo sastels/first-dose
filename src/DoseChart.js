@@ -15,8 +15,14 @@ const mungeData = (data, country) => {
 }
 
 function Chart(data) {
-
     const options = {
+        plotOptions: {
+            line: {
+                marker: {
+                    enabled: false
+                }
+            }
+        },
         chart: {
             zoomType: 'x'
         },
@@ -50,15 +56,12 @@ function Chart(data) {
             },
         ]
       }
-           
         return (
             <HighchartsReact
               highcharts={Highcharts}
               options={options}
             />
-          )
-
-    
+          )    
 }
 
 function DoseChart() {
@@ -79,12 +82,10 @@ function DoseChart() {
             setData(data);
           });
       }
-
       useEffect(()=>{
         getData()
       },[])
 
-      
       return (
         <div className="App">
          {
