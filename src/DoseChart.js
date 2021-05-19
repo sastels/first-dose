@@ -1,45 +1,45 @@
 
+import Highcharts from 'highcharts'
+import HighchartsReact from 'highcharts-react-official'
 import React,{useState,useEffect} from 'react';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
+
 function Chart(data) {
-
-
     const canada = data["Canada"] || "no data"
-
     var munged = []
     for (const key in canada) {
-        munged.push({date: key, doses: canada[key]})
+        munged.push([parseInt(key), canada[key]])
     }
-
-    const d = [{name: 'Page A', uv: 400, pv: 2400, amt: 2400},
-    {name: 'Page B', uv: 500, pv: 2400, amt: 2400},
-    {name: 'Page C', uv: 200, pv: 2400, amt: 2400},
-    {name: 'Page D', uv: 600, pv: 2400, amt: 2400},
-]
     
-    return (
+    console.log(munged)
 
-        <div>
-        {JSON.stringify(canada)}
-        
-        <LineChart width={600} height={300} data={munged}>
-            <Line type="monotone" dataKey="doses" stroke="#8884d8" />
-            <CartesianGrid stroke="#ccc" />
-            <XAxis dataKey="date" />
-            <YAxis />
-        </LineChart>
+    const options = {
+        chart: {
+            zoomType: 'x'
+        },
+        title: {
+          text: 'First Dose Coverage'
+        },
+        xAxis: {
+            type: 'datetime'
+        },
+        yAxis: {
+            title: {
+                text: 'Percentage covered'
+            }
+        },
+        series: [{
+          data: munged
+        }]
+      }
+           
+        return (
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={options}
+            />
+          )
 
-
-        <LineChart width={600} height={300} data={d}>
-            <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-            <CartesianGrid stroke="#ccc" />
-            {/* <XAxis dataKey="name" /> */}
-            <YAxis />
-        </LineChart>
-
-        </div>
-
-    )
+    
 }
 
 function DoseChart() {
