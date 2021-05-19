@@ -8,8 +8,9 @@ function App() {
       <div style = {{margin : 50 }} className="App">
         <DoseChart/>
       </div>
-      <p>Percentage of people in a country who has had at least one dose of a Covid-19 vaccine.</p>
+      <p>Percentage of people in a country who have had at least one dose of a Covid-19 vaccine.</p>
       <p>Data from <a href="https://github.com/owid/covid-19-data">Our World in Data</a>.</p>
+      <p>Code in <a href="https://github.com/sastels/first-dose">Github</a>.</p>
     </div>
   );
 }
