@@ -3,14 +3,18 @@ import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import React,{useState,useEffect} from 'react';
 
-function Chart(data) {
-    const canada = data["Canada"] || "no data"
+const mungeData = (data, country) => {
+    const country_data = data[country] || {}
     var munged = []
-    for (const key in canada) {
-        munged.push([parseInt(key), canada[key]])
+    for (const key in country_data) {
+        if (country_data[key] !== null) {
+            munged.push([parseInt(key), country_data[key]])
+        }
     }
-    
-    console.log(munged)
+    return munged
+}
+
+function Chart(data) {
 
     const options = {
         chart: {
@@ -27,9 +31,24 @@ function Chart(data) {
                 text: 'Percentage covered'
             }
         },
-        series: [{
-          data: munged
-        }]
+        series: [
+            {
+                name: "Israel",    
+                data:  mungeData(data, "Israel")
+            },
+            {
+                name: "United Kingdom",    
+                data:  mungeData(data, "United Kingdom")
+            },
+            {
+                name: "United States",    
+                data:  mungeData(data, "United States")
+            },
+            {       
+                name: "Canada",    
+                data: mungeData(data, "Canada")
+            },
+        ]
       }
            
         return (
@@ -54,13 +73,9 @@ function DoseChart() {
         }
         )
           .then(function(response){
-            console.log(response)
             return response.json();
           })
           .then(function(data) {
-              for (const key in data) {
-                console.log(`${key}: ${JSON.stringify(data[key])}`);
-              }
             setData(data);
           });
       }
