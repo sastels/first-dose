@@ -1,23 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
+import DoseChart from './DoseChart';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{textAlign:"center"}}>
+    <div style = {{margin : 50 }} className="App">
+      <DoseChart/>
+    </div>
+    <p>
+      Percentage of a country that has been at least one dose of a Covid-19 vaccine. 
+      Data from <a href="https://github.com/owid/covid-19-data">Our World in Data</a>.
+    </p>
     </div>
   );
 }
