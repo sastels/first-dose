@@ -23,6 +23,18 @@ function Chart(data) {
                 }
             }
         },
+        tooltip: {
+            shared: true,
+            formatter: function () {
+                var yourDate = new Date(this.x);
+                const offset = yourDate.getTimezoneOffset(); 
+                yourDate = new Date(yourDate.getTime() + (offset*60*1000)); 
+                const date = yourDate.toISOString().split('T')[0]
+                var retval = date + '<br>'
+                retval += this.points.map(x=> `${x.series.name}: ${x.y.toFixed(1)}%`).join('<br>')
+                return retval
+            }
+        },
         chart: {
             zoomType: 'x'
         },
