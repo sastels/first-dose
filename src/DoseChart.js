@@ -92,10 +92,14 @@ function Chart(data) {
 
 function DoseChart() {
     const [data,setData]=useState([]);
+    const [updated, setUpdated] = useState([]);
      
       const getData = async () => {
         const storage = firebase.storage();
         const storageRef = storage.ref();
+        const metadata = await storageRef.child('dose_stats.json').getMetadata()
+        const updatedDate = metadata.updated.slice(0, 10)
+        setUpdated(updatedDate)
         const url = await storageRef.child('dose_stats.json').getDownloadURL()      
         var xhr = new XMLHttpRequest();
         xhr.responseType = 'json';
@@ -116,6 +120,7 @@ function DoseChart() {
          {
            Chart(data)
          }
+         <p> Last updated at {updated}</p>
         </div>
       );
     }
