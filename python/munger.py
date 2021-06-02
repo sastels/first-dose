@@ -42,10 +42,10 @@ if __name__ == "__main__":
     vaccine_file = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.json"
     vaccination_data_df = pd.read_json(vaccine_file)
 
-    df_ca = get_first_dose(vaccination_data_df, "Canada", 37590000)
-    df_us = get_first_dose(vaccination_data_df, "United States", 328200000)
-    df_uk = get_first_dose(vaccination_data_df, "United Kingdom", 66650000)
-    df_is = get_first_dose(vaccination_data_df, "Israel", 9053000)
+    df_ca = get_first_dose(vaccination_data_df, "Canada", 37746527)
+    df_us = get_first_dose(vaccination_data_df, "United States", 334438269)
+    df_uk = get_first_dose(vaccination_data_df, "United Kingdom", 67893379)
+    df_is = get_first_dose(vaccination_data_df, "Israel", 8652167)
 
     df = df_is.join(df_uk, how="outer").join(
         df_us, how="outer").join(df_ca, how="outer")
