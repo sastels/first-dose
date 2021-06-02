@@ -2,6 +2,20 @@
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import React,{useState,useEffect} from 'react';
+import firebase from "firebase/app";
+import 'firebase/storage';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCYOlqH5i8Q_nN_5i91JvUY3qU4Blan9Uo",
+  authDomain: "first-dose-eb9bd.firebaseapp.com",
+  projectId: "first-dose-eb9bd",
+  storageBucket: "first-dose-eb9bd.appspot.com",
+  messagingSenderId: "212541290476",
+  appId: "1:212541290476:web:03a13b63cb5280de87b2c9",
+  measurementId: "G-2CY2T47KWQ"
+};
+firebase.initializeApp(firebaseConfig);
+
 
 const mungeData = (data, country) => {
     const country_data = data[country] || {}
@@ -78,31 +92,35 @@ function Chart(data) {
 
 function DoseChart() {
     const [data,setData]=useState([]);
-    const getData=()=>{
-        fetch('dose_stats.json'
-        ,{
-          headers : { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-           }
-        }
-        )
-          .then(function(response){
-            return response.json();
-          })
-          .then(function(data) {
-            setData(data);
-          });
+    const [updated, setUpdated] = useState([]);
+     
+      const getData = async () => {
+        const storage = firebase.storage();
+        const storageRef = storage.ref();
+        const metadata = await storageRef.child('dose_stats.json').getMetadata()
+        const updatedDate = metadata.updated.slice(0, 10)
+        setUpdated(updatedDate)
+        const url = await storageRef.child('dose_stats.json').getDownloadURL()      
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'json';
+        xhr.onload = async () => {
+            var data = await xhr.response
+            setData(data)
+        };
+        xhr.open('GET', url);
+        xhr.send();
       }
-      useEffect(()=>{
+
+      useEffect(() => {
         getData()
-      },[])
+      }, [])
 
       return (
         <div className="App">
          {
            Chart(data)
          }
+         <p> Last updated at {updated}</p>
         </div>
       );
     }

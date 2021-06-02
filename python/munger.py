@@ -2,7 +2,28 @@
 
 # Data from Our World in Data, https://github.com/owid/covid-19-data
 
+import firebase_admin
+from firebase_admin import credentials, storage
 import pandas as pd
+
+LOCAL_SERVICE_ACCOUNT_KEY = "/Users/sastels/Firebase_Keys/first-dose-eb9bd-firebase-adminsdk-srkcq-39b504aac1.json"
+cred = credentials.Certificate(LOCAL_SERVICE_ACCOUNT_KEY)
+firebase_admin.initialize_app(cred, {
+    'storageBucket': 'first-dose-eb9bd.appspot.com'
+})
+
+bucket = storage.bucket()
+
+
+def upload_blob(source_file_name, destination_blob_name):
+    """Uploads a file to the bucket."""
+    blob = bucket.blob(destination_blob_name)
+    blob.upload_from_filename(source_file_name)
+    print(
+        "File {} uploaded to {}.".format(
+            source_file_name, destination_blob_name
+        )
+    )
 
 
 def get_first_dose(data_df, country, population):
@@ -28,4 +49,6 @@ if __name__ == "__main__":
 
     df = df_is.join(df_uk, how="outer").join(
         df_us, how="outer").join(df_ca, how="outer")
-    df.to_json("public/dose_stats.json")
+    df.to_json("dose_stats.json")
+
+    upload_blob('dose_stats.json', 'dose_stats.json')
