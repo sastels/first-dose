@@ -9,8 +9,8 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
   response.send("Hello from Firebase!");
 });
 
-exports.munge = functions.https.onRequest((request, response) => {
-  functions.logger.info("munging data", { structuredData: true });
+exports.mungeDaily = functions.pubsub.schedule("every 12 hours").onRun(() => {
+  functions.logger.info("running munger", { structuredData: true });
   getData();
-  response.send("Data munged and saved!");
+  return null;
 });
