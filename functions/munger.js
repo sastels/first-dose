@@ -39,3 +39,5 @@ const getData = () => {
 };
 
 getData();
+
+exports.getData = getData;
