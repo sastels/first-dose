@@ -1,11 +1,19 @@
 /* eslint-disable indent */
 const fetch = require("node-fetch");
+const { bucket } = require("./config");
+
+async function uploadFile(data) {
+  const file = bucket.file("munged_data.json");
+  file.save(JSON.stringify(data)).then(() => {
+    console.log(`file uploaded`);
+  });
+}
 
 const getFirstDose = (data, country) => {
   const countryData = data
     .filter((x) => x.country === country)[0]
     .data.map((day) => ({
-      date: day.date,
+      date: Date.parse(day.date),
       peopleVaccinated: day.people_vaccinated,
       peopleFullyVaccinated: day.people_fully_vaccinated,
     }));
@@ -23,12 +31,11 @@ const getData = () => {
       ...getFirstDose(json, "United States"),
       ...getFirstDose(json, "United Kingdom"),
       ...getFirstDose(json, "Israel"),
-    }));
+    }))
+    .then((data) => {
+      // console.log(data);
+      uploadFile(data);
+    });
 };
 
-const munger = async () => {
-  const data = await getData();
-  console.log(data);
-};
-
-munger();
+getData();
