@@ -1,4 +1,5 @@
 /* eslint-disable indent */
+
 const fetch = require("node-fetch");
 const { bucket } = require("./config");
 
@@ -33,7 +34,6 @@ const getData = () => {
       ...getFirstDose(json, "Israel"),
     }))
     .then((data) => {
-      // console.log(data);
       uploadFile(data);
     });
 };
