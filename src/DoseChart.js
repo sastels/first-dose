@@ -1,5 +1,5 @@
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
+import FirstDoseChart from "./FirstDoseChart";
+import FullyVaccinatedChart from "./FullyVaccinatedChart";
 import React, { useState, useEffect } from "react";
 import firebase from "firebase/app";
 import "firebase/storage";
@@ -15,76 +15,19 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-const mungeData = (data, country, population) => {
+const lastUpdated = (data) => {
+  var lastDate = null;
+  const country = "Canada";
   const country_data = data[country] || {};
-  var munged = [];
   for (const key in country_data) {
     if (country_data[key] !== null) {
       const x = country_data[key];
-      munged.push([x.date, (x.peopleVaccinated * 100) / population]);
+      lastDate = lastDate ? Math.max(lastDate, x.date) : x.date;
     }
   }
-  return munged;
+  lastDate = new Date(lastDate);
+  return lastDate.toISOString().substring(0, 10);
 };
-
-function Chart(data) {
-  const options = {
-    plotOptions: {
-      line: {
-        marker: {
-          enabled: false,
-        },
-      },
-    },
-    tooltip: {
-      shared: true,
-      formatter: function () {
-        var yourDate = new Date(this.x);
-        const offset = yourDate.getTimezoneOffset();
-        yourDate = new Date(yourDate.getTime() + offset * 60 * 1000);
-        const date = yourDate.toISOString().split("T")[0];
-        var retval = date + "<br>";
-        retval += this.points
-          .map((x) => `${x.series.name}: ${x.y.toFixed(1)}%`)
-          .join("<br>");
-        return retval;
-      },
-    },
-    chart: {
-      zoomType: "x",
-    },
-    title: {
-      text: "First Dose Coverage",
-    },
-    xAxis: {
-      type: "datetime",
-    },
-    yAxis: {
-      title: {
-        text: "Percentage covered",
-      },
-    },
-    series: [
-      {
-        name: "Israel",
-        data: mungeData(data, "Israel", 8652167),
-      },
-      {
-        name: "United Kingdom",
-        data: mungeData(data, "United Kingdom", 67893379),
-      },
-      {
-        name: "United States",
-        data: mungeData(data, "United States", 334438269),
-      },
-      {
-        name: "Canada",
-        data: mungeData(data, "Canada", 37746527),
-      },
-    ],
-  };
-  return <HighchartsReact highcharts={Highcharts} options={options} />;
-}
 
 function DoseChart() {
   const [data, setData] = useState([]);
@@ -93,15 +36,13 @@ function DoseChart() {
   const getData = async () => {
     const storage = firebase.storage();
     const storageRef = storage.ref();
-    const metadata = await storageRef.child("munged_data.json").getMetadata();
-    const updatedDate = metadata.updated.slice(0, 10);
-    setUpdated(updatedDate);
     const url = await storageRef.child("munged_data.json").getDownloadURL();
     var xhr = new XMLHttpRequest();
     xhr.responseType = "json";
     xhr.onload = async () => {
       var data = await xhr.response;
       setData(data);
+      setUpdated(lastUpdated(data));
     };
     xhr.open("GET", url);
     xhr.send();
@@ -113,8 +54,9 @@ function DoseChart() {
 
   return (
     <div className="App">
-      {Chart(data)}
-      <p> Last updated at {updated}</p>
+      {FirstDoseChart(data)}
+      {FullyVaccinatedChart(data)}
+      <p> Data last updated at {updated}</p>
     </div>
   );
 }
