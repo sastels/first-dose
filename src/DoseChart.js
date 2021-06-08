@@ -17,13 +17,10 @@ firebase.initializeApp(firebaseConfig);
 
 const mungeData = (data, country, population) => {
   const country_data = data[country] || {};
-  //   console.log(country);
-  //   console.log({ country_data });
   var munged = [];
   for (const key in country_data) {
     if (country_data[key] !== null) {
       const x = country_data[key];
-      //   console.log(x);
       munged.push([x.date, (x.peopleVaccinated * 100) / population]);
     }
   }
