@@ -11,13 +11,16 @@ async function uploadFile(data, fileName) {
 }
 
 const mungeCovid19TrackerData = (data) => {
-  return data.data.map((day) => ({
-    date: Date.parse(day.date),
-    dateString: day.date,
-    totalOneDose: day.total_vaccinations - day.total_vaccinated,
-    totalFullyVaccinated: day.total_vaccinated,
-    active: day.total_cases - day.total_fatalities - day.total_recoveries,
-  }));
+  return {
+    Ontario: data.data.map((day) => ({
+      date: Date.parse(day.date),
+      dateString: day.date,
+      peopleVaccinated: day.total_vaccinations - day.total_vaccinated,
+      peopleFullyVaccinated: day.total_vaccinated,
+      activeCases:
+        day.total_cases - day.total_fatalities - day.total_recoveries,
+    })),
+  };
 };
 
 const getCovid19TrackerData = () => {
@@ -30,6 +33,6 @@ const getCovid19TrackerData = () => {
     });
 };
 
-// getCovid19TrackerData();
+getCovid19TrackerData();
 
 exports.getCovid19TrackerData = getCovid19TrackerData;
