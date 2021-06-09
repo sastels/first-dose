@@ -30,10 +30,10 @@ const lastUpdated = (data) => {
 };
 
 function DoseChart() {
-  const [data, setData] = useState([]);
+  const [ourWorldData, setOurWorldData] = useState([]);
   const [updated, setUpdated] = useState([]);
 
-  const getData = async () => {
+  const getOurWorldData = async () => {
     const storage = firebase.storage();
     const storageRef = storage.ref();
     const url = await storageRef.child("ourWorldInData.json").getDownloadURL();
@@ -41,7 +41,7 @@ function DoseChart() {
     xhr.responseType = "json";
     xhr.onload = async () => {
       var data = await xhr.response;
-      setData(data);
+      setOurWorldData(data);
       setUpdated(lastUpdated(data));
     };
     xhr.open("GET", url);
@@ -49,13 +49,13 @@ function DoseChart() {
   };
 
   useEffect(() => {
-    getData();
+    getOurWorldData();
   }, []);
 
   return (
     <div className="App">
-      {FirstDoseChart(data)}
-      {FullyVaccinatedChart(data)}
+      {FirstDoseChart(ourWorldData)}
+      {FullyVaccinatedChart(ourWorldData)}
       <p> Data last updated at {updated}</p>
     </div>
   );
