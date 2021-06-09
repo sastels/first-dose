@@ -3,14 +3,14 @@
 const fetch = require("node-fetch");
 const { bucket } = require("./config");
 
-async function uploadFile(data) {
-  const file = bucket.file("munged_data.json");
+async function uploadFile(data, fileName) {
+  const file = bucket.file(fileName);
   file.save(JSON.stringify(data)).then(() => {
     console.log(`file uploaded`);
   });
 }
 
-const getFirstDose = (data, country) => {
+const mungeOurWorldInData = (data, country) => {
   const countryData = data
     .filter((x) => x.country === country)[0]
     .data.map((day) => ({
@@ -21,23 +21,23 @@ const getFirstDose = (data, country) => {
   return { [country]: countryData };
 };
 
-const getData = () => {
+const getOurWorldInData = () => {
   const dataFileName =
     "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.json";
 
   return fetch(dataFileName)
     .then((res) => res.json())
     .then((json) => ({
-      ...getFirstDose(json, "Canada"),
-      ...getFirstDose(json, "United States"),
-      ...getFirstDose(json, "United Kingdom"),
-      ...getFirstDose(json, "Israel"),
+      ...mungeOurWorldInData(json, "Canada"),
+      ...mungeOurWorldInData(json, "United States"),
+      ...mungeOurWorldInData(json, "United Kingdom"),
+      ...mungeOurWorldInData(json, "Israel"),
     }))
     .then((data) => {
-      uploadFile(data);
+      uploadFile(data, "munged_data.json");
     });
 };
 
-getData();
+// getOurWorldInData();
 
-exports.getData = getData;
+exports.getOurWorldInData = getOurWorldInData;
