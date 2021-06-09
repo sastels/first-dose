@@ -3,6 +3,7 @@ import FullyVaccinatedChart from "./FullyVaccinatedChart";
 import React, { useState, useEffect } from "react";
 import firebase from "firebase/app";
 import "firebase/storage";
+import LocalFirstDoseChart from "./LocalFirstDoseChart";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCYOlqH5i8Q_nN_5i91JvUY3qU4Blan9Uo",
@@ -31,6 +32,7 @@ const lastUpdated = (data) => {
 
 function DoseChart() {
   const [ourWorldData, setOurWorldData] = useState([]);
+  const [trackerData, setTrackerData] = useState([]);
   const [updated, setUpdated] = useState([]);
 
   const getOurWorldData = async () => {
@@ -48,14 +50,32 @@ function DoseChart() {
     xhr.send();
   };
 
+  const getTrackerData = async () => {
+    const storage = firebase.storage();
+    const storageRef = storage.ref();
+    const url = await storageRef
+      .child("covid19_tracker_on.json")
+      .getDownloadURL();
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    xhr.onload = async () => {
+      var data = await xhr.response;
+      setTrackerData(data);
+    };
+    xhr.open("GET", url);
+    xhr.send();
+  };
+
   useEffect(() => {
     getOurWorldData();
+    getTrackerData();
   }, []);
 
   return (
     <div className="App">
       {FirstDoseChart(ourWorldData)}
       {FullyVaccinatedChart(ourWorldData)}
+      {LocalFirstDoseChart(trackerData)}
       <p> Data last updated at {updated}</p>
     </div>
   );

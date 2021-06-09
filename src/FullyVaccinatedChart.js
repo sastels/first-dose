@@ -8,7 +8,9 @@ const chartDataFullyVaccinated = (data, country, population) => {
   for (const key in country_data) {
     if (country_data[key] !== null) {
       const x = country_data[key];
-      munged.push([x.date, (x.peopleFullyVaccinated * 100) / population]);
+      if (x.date >= 1608422400000) {
+        munged.push([x.date, (x.peopleFullyVaccinated * 100) / population]);
+      }
     }
   }
   return munged;

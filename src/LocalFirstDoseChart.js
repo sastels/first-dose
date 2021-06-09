@@ -2,21 +2,22 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import React from "react";
 
-const chartDataOneDose = (data, country, population) => {
-  const country_data = data[country] || {};
+const chartData = (data, dataField, area, population) => {
+  const country_data = data[area] || {};
   var munged = [];
   for (const key in country_data) {
     if (country_data[key] !== null) {
       const x = country_data[key];
       if (x.date >= 1608422400000) {
-        munged.push([x.date, (x.peopleVaccinated * 100) / population]);
+        // 2020-12-19
+        munged.push([x.date, (x[dataField] * 100) / population]);
       }
     }
   }
   return munged;
 };
 
-function FirstDoseChart(data) {
+function LocalFirstDoseChart(data) {
   const options = {
     plotOptions: {
       line: {
@@ -64,24 +65,12 @@ function FirstDoseChart(data) {
     ],
     series: [
       {
-        name: "Israel",
-        data: chartDataOneDose(data, "Israel", 8652167),
-      },
-      {
-        name: "United Kingdom",
-        data: chartDataOneDose(data, "United Kingdom", 67893379),
-      },
-      {
-        name: "United States",
-        data: chartDataOneDose(data, "United States", 334438269),
-      },
-      {
-        name: "Canada",
-        data: chartDataOneDose(data, "Canada", 37746527),
+        name: "Ontario",
+        data: chartData(data, "peopleVaccinated", "Ontario", 14745040),
       },
     ],
   };
   return <HighchartsReact highcharts={Highcharts} options={options} />;
 }
 
-export default FirstDoseChart;
+export default LocalFirstDoseChart;
