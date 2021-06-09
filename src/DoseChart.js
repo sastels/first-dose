@@ -36,7 +36,7 @@ function DoseChart() {
   const getData = async () => {
     const storage = firebase.storage();
     const storageRef = storage.ref();
-    const url = await storageRef.child("munged_data.json").getDownloadURL();
+    const url = await storageRef.child("ourWorldInData.json").getDownloadURL();
     var xhr = new XMLHttpRequest();
     xhr.responseType = "json";
     xhr.onload = async () => {

@@ -15,6 +15,7 @@ const mungeOurWorldInData = (data, country) => {
     .filter((x) => x.country === country)[0]
     .data.map((day) => ({
       date: Date.parse(day.date),
+      dateString: day.date,
       peopleVaccinated: day.people_vaccinated,
       peopleFullyVaccinated: day.people_fully_vaccinated,
     }));
@@ -34,7 +35,7 @@ const getOurWorldInData = () => {
       ...mungeOurWorldInData(json, "Israel"),
     }))
     .then((data) => {
-      uploadFile(data, "munged_data.json");
+      uploadFile(data, "ourWorldInData.json");
     });
 };
 
