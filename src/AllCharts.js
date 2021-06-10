@@ -158,6 +158,22 @@ function AllCharts() {
           )}
         </div>
       </div>
+
+      <h2>Active cases</h2>
+
+      <div class="cards">
+        <div class="card">
+          {MasterChart(
+            data,
+            "Active cases",
+            ["Ontario", "Ottawa"].map((c) => ({
+              name: c,
+              data: chartData(data, "activeCases", c, population[c], 0),
+            }))
+          )}
+        </div>
+      </div>
+
       <p> Data last updated at {updated}</p>
     </div>
   );
