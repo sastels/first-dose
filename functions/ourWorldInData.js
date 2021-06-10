@@ -6,7 +6,7 @@ const { bucket } = require("./config");
 async function uploadFile(data, fileName) {
   const file = bucket.file(fileName);
   file.save(JSON.stringify(data)).then(() => {
-    console.log(`file uploaded`);
+    console.log(`file uploaded: ${fileName}`);
   });
 }
 
