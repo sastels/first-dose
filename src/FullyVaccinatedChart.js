@@ -1,20 +1,7 @@
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import React from "react";
-
-const chartDataFullyVaccinated = (data, country, population) => {
-  const country_data = data[country] || {};
-  var munged = [];
-  for (const key in country_data) {
-    if (country_data[key] !== null) {
-      const x = country_data[key];
-      if (x.date >= 1608422400000) {
-        munged.push([x.date, (x.peopleFullyVaccinated * 100) / population]);
-      }
-    }
-  }
-  return munged;
-};
+import { chartData } from "./mungingUtils";
 
 function FullyVaccinatedChart(data) {
   const options = {
@@ -65,19 +52,29 @@ function FullyVaccinatedChart(data) {
     series: [
       {
         name: "Israel",
-        data: chartDataFullyVaccinated(data, "Israel", 8652167),
+        data: chartData(data, "peopleFullyVaccinated", "Israel", 8652167),
       },
       {
         name: "United Kingdom",
-        data: chartDataFullyVaccinated(data, "United Kingdom", 67893379),
+        data: chartData(
+          data,
+          "peopleFullyVaccinated",
+          "United Kingdom",
+          67893379
+        ),
       },
       {
         name: "United States",
-        data: chartDataFullyVaccinated(data, "United States", 334438269),
+        data: chartData(
+          data,
+          "peopleFullyVaccinated",
+          "United States",
+          334438269
+        ),
       },
       {
         name: "Canada",
-        data: chartDataFullyVaccinated(data, "Canada", 37746527),
+        data: chartData(data, "peopleFullyVaccinated", "Canada", 37746527),
       },
     ],
   };

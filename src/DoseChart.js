@@ -71,11 +71,15 @@ function DoseChart() {
     getTrackerData();
   }, []);
 
+  const data = {
+    ...ourWorldData,
+    ...trackerData,
+  };
   return (
     <div className="App">
-      {FirstDoseChart(ourWorldData)}
-      {FullyVaccinatedChart(ourWorldData)}
-      {LocalFirstDoseChart(trackerData)}
+      {FirstDoseChart(data)}
+      {FullyVaccinatedChart(data)}
+      {LocalFirstDoseChart(data)}
       <p> Data last updated at {updated}</p>
     </div>
   );

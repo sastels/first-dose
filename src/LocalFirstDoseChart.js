@@ -1,21 +1,7 @@
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import React from "react";
-
-const chartData = (data, dataField, area, population) => {
-  const country_data = data[area] || {};
-  var munged = [];
-  for (const key in country_data) {
-    if (country_data[key] !== null) {
-      const x = country_data[key];
-      if (x.date >= 1608422400000) {
-        // 2020-12-19
-        munged.push([x.date, (x[dataField] * 100) / population]);
-      }
-    }
-  }
-  return munged;
-};
+import { chartData } from "./mungingUtils";
 
 function LocalFirstDoseChart(data) {
   const options = {
@@ -64,6 +50,10 @@ function LocalFirstDoseChart(data) {
       },
     ],
     series: [
+      {
+        name: "Canada",
+        data: chartData(data, "peopleVaccinated", "Canada", 37746527),
+      },
       {
         name: "Ontario",
         data: chartData(data, "peopleVaccinated", "Ontario", 14745040),

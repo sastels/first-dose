@@ -1,20 +1,7 @@
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import React from "react";
-
-const chartDataOneDose = (data, country, population) => {
-  const country_data = data[country] || {};
-  var munged = [];
-  for (const key in country_data) {
-    if (country_data[key] !== null) {
-      const x = country_data[key];
-      if (x.date >= 1608422400000) {
-        munged.push([x.date, (x.peopleVaccinated * 100) / population]);
-      }
-    }
-  }
-  return munged;
-};
+import { chartData } from "./mungingUtils";
 
 function FirstDoseChart(data) {
   const options = {
@@ -65,19 +52,19 @@ function FirstDoseChart(data) {
     series: [
       {
         name: "Israel",
-        data: chartDataOneDose(data, "Israel", 8652167),
+        data: chartData(data, "peopleVaccinated", "Israel", 8652167),
       },
       {
         name: "United Kingdom",
-        data: chartDataOneDose(data, "United Kingdom", 67893379),
+        data: chartData(data, "peopleVaccinated", "United Kingdom", 67893379),
       },
       {
         name: "United States",
-        data: chartDataOneDose(data, "United States", 334438269),
+        data: chartData(data, "peopleVaccinated", "United States", 334438269),
       },
       {
         name: "Canada",
-        data: chartDataOneDose(data, "Canada", 37746527),
+        data: chartData(data, "peopleVaccinated", "Canada", 37746527),
       },
     ],
   };
