@@ -33,6 +33,6 @@ const getCovid19TrackerData = () => {
     });
 };
 
-getCovid19TrackerData();
+// getCovid19TrackerData();
 
 exports.getCovid19TrackerData = getCovid19TrackerData;
