@@ -31,6 +31,6 @@ const getOpenOttawaData = () => {
     });
 };
 
-getOpenOttawaData();
+// getOpenOttawaData();
 
 exports.getOpenOttawaData = getOpenOttawaData;
