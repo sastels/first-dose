@@ -1,11 +1,16 @@
-const chartData = (data, dataField, area, population) => {
+const chartData = (
+  data,
+  dataField,
+  area,
+  population,
+  startDate = 1608422400000 // 2020-12-20
+) => {
   const country_data = data[area] || {};
   var munged = [];
   for (const key in country_data) {
     if (country_data[key] !== null) {
       const x = country_data[key];
-      if (x.date >= 1608422400000) {
-        // 2020-12-20
+      if (x.date >= startDate) {
         munged.push([x.date, (x[dataField] * 100) / population]);
       }
     }
