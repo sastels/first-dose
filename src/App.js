@@ -14,8 +14,7 @@ function App() {
         <a href="https://api.covid19tracker.ca">COVID-19 Tracker Canada</a>.
       </p>
       <p>
-        Code for this app in{" "}
-        <a href="https://github.com/sastels/first-dose">Github</a>.
+        Code in <a href="https://github.com/sastels/first-dose">Github</a>.
       </p>
     </div>
   );
