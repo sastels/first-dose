@@ -1,3 +1,4 @@
+import "./AllCharts.css";
 import React, { useState, useEffect } from "react";
 import firebase from "firebase/app";
 import "firebase/storage";
@@ -108,44 +109,55 @@ function AllCharts() {
 
   return (
     <div className="App">
-      <h2>Canada vs other countries</h2>
-      {MasterChart(
-        data,
-        "First Dose",
-        countries.map((c) => ({
-          name: c,
-          data: chartData(data, "peopleVaccinated", c, population[c]),
-        }))
-      )}
+      <h2>Countries</h2>
+      <div class="cards">
+        <div class="card">
+          {MasterChart(
+            data,
+            "First Dose",
+            countries.map((c) => ({
+              name: c,
+              data: chartData(data, "peopleVaccinated", c, population[c]),
+            }))
+          )}
+        </div>
 
-      {MasterChart(
-        data,
-        "Fully Vaccinated",
-        countries.map((c) => ({
-          name: c,
-          data: chartData(data, "peopleFullyVaccinated", c, population[c]),
-        }))
-      )}
+        <div class="card">
+          {MasterChart(
+            data,
+            "Fully Vaccinated",
+            countries.map((c) => ({
+              name: c,
+              data: chartData(data, "peopleFullyVaccinated", c, population[c]),
+            }))
+          )}
+        </div>
+      </div>
 
       <h2>Canada / Ontario / Ottawa</h2>
-      {MasterChart(
-        data,
-        "First Dose",
-        local.map((c) => ({
-          name: c,
-          data: chartData(data, "peopleVaccinated", c, population[c]),
-        }))
-      )}
 
-      {MasterChart(
-        data,
-        "Fully Vaccinated",
-        local.map((c) => ({
-          name: c,
-          data: chartData(data, "peopleFullyVaccinated", c, population[c]),
-        }))
-      )}
-
+      <div class="cards">
+        <div class="card">
+          {MasterChart(
+            data,
+            "First Dose",
+            local.map((c) => ({
+              name: c,
+              data: chartData(data, "peopleVaccinated", c, population[c]),
+            }))
+          )}
+        </div>
+        <div class="card">
+          {MasterChart(
+            data,
+            "Fully Vaccinated",
+            local.map((c) => ({
+              name: c,
+              data: chartData(data, "peopleFullyVaccinated", c, population[c]),
+            }))
+          )}
+        </div>
+      </div>
       <p> Data last updated at {updated}</p>
     </div>
   );
