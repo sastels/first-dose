@@ -33,6 +33,18 @@ const getCovid19TrackerData = () => {
     });
 };
 
+const getOttawaData = () => {
+  const dataFileName = "https://api.covid19tracker.ca/reports/regions/3551";
+  return fetch(dataFileName)
+    .then((res) => res.json())
+    .then((json) => mungeCovid19TrackerData(json))
+    .then((data) => {
+      uploadFile(data, "covid19_tracker_ottawa.json");
+    });
+};
+
 // getCovid19TrackerData();
+getOttawaData();
 
 exports.getCovid19TrackerData = getCovid19TrackerData;
+exports.getOttawaData = getOttawaData;

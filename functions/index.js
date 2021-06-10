@@ -1,6 +1,6 @@
 const functions = require("firebase-functions");
 const { getOurWorldInData } = require("./ourWorldInData");
-const { getCovid19TrackerData } = require("./covid19Tracker");
+const { getCovid19TrackerData, getOttawaData } = require("./covid19Tracker");
 
 exports.helloWorld = functions.https.onRequest((_, response) => {
   functions.logger.info("Hello logs!", { structuredData: true });
@@ -18,5 +18,6 @@ exports.mungeCovid19Tracker = functions.pubsub
   .schedule("every 12 hours")
   .onRun(() => {
     getCovid19TrackerData();
+    getOttawaData();
     return null;
   });
