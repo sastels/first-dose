@@ -21,6 +21,7 @@ const population = {
   "United States": 334438269,
   Canada: 37746527,
   Ontario: 14745040,
+  Ottawa: 1060658,
 };
 
 const lastUpdated = (data) => {
@@ -39,7 +40,8 @@ const lastUpdated = (data) => {
 
 function AllCharts() {
   const [ourWorldData, setOurWorldData] = useState([]);
-  const [trackerData, setTrackerData] = useState([]);
+  const [ontarioData, setOntarioData] = useState([]);
+  const [ottawaData, setOttawaData] = useState([]);
   const [updated, setUpdated] = useState([]);
 
   const getOurWorldData = async () => {
@@ -57,7 +59,7 @@ function AllCharts() {
     xhr.send();
   };
 
-  const getTrackerData = async () => {
+  const getOntarioData = async () => {
     const storage = firebase.storage();
     const storageRef = storage.ref();
     const url = await storageRef
@@ -67,7 +69,23 @@ function AllCharts() {
     xhr.responseType = "json";
     xhr.onload = async () => {
       var data = await xhr.response;
-      setTrackerData(data);
+      setOntarioData(data);
+    };
+    xhr.open("GET", url);
+    xhr.send();
+  };
+
+  const getOttawaData = async () => {
+    const storage = firebase.storage();
+    const storageRef = storage.ref();
+    const url = await storageRef
+      .child("covid19_tracker_ottawa.json")
+      .getDownloadURL();
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    xhr.onload = async () => {
+      var data = await xhr.response;
+      setOttawaData(data);
     };
     xhr.open("GET", url);
     xhr.send();
@@ -75,20 +93,22 @@ function AllCharts() {
 
   useEffect(() => {
     getOurWorldData();
-    getTrackerData();
+    getOntarioData();
+    getOttawaData();
   }, []);
 
   const data = {
     ...ourWorldData,
-    ...trackerData,
+    ...ontarioData,
+    ...ottawaData,
   };
 
   const countries = ["Israel", "United Kingdom", "United States", "Canada"];
-  const local = ["Canada", "Ontario"];
+  const local = ["Canada", "Ontario", "Ottawa"];
 
   return (
     <div className="App">
-      <h2> Canada vs other countries</h2>
+      <h2>Canada vs other countries</h2>
       {MasterChart(
         data,
         "First Dose",
@@ -107,7 +127,7 @@ function AllCharts() {
         }))
       )}
 
-      <h2> Canada / Ontario</h2>
+      <h2>Canada / Ontario / Ottawa</h2>
       {MasterChart(
         data,
         "First Dose",
