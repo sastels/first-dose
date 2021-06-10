@@ -115,14 +115,12 @@ function AllCharts() {
     getOPHData();
   }, []);
 
-  var data = {
+  const data = {
     ...ourWorldData,
     ...ontarioData,
     ...ottawaData,
     ...ophData,
   };
-
-  console.log(data);
 
   const countries = ["Israel", "United Kingdom", "United States", "Canada"];
   const local = ["Canada", "Ontario", "Ottawa"];
