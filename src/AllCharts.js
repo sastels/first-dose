@@ -1,9 +1,8 @@
-import FirstDoseChart from "./FirstDoseChart";
-import FullyVaccinatedChart from "./FullyVaccinatedChart";
 import React, { useState, useEffect } from "react";
 import firebase from "firebase/app";
 import "firebase/storage";
-import LocalFirstDoseChart from "./LocalFirstDoseChart";
+import MasterChart from "./MasterChart";
+import { chartData } from "./mungingUtils";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCYOlqH5i8Q_nN_5i91JvUY3qU4Blan9Uo",
@@ -15,6 +14,14 @@ const firebaseConfig = {
   measurementId: "G-2CY2T47KWQ",
 };
 firebase.initializeApp(firebaseConfig);
+
+const population = {
+  Israel: 8652167,
+  "United Kingdom": 67893379,
+  "United States": 334438269,
+  Canada: 37746527,
+  Ontario: 14745040,
+};
 
 const lastUpdated = (data) => {
   var lastDate = null;
@@ -30,7 +37,7 @@ const lastUpdated = (data) => {
   return lastDate.toISOString().substring(0, 10);
 };
 
-function DoseChart() {
+function AllCharts() {
   const [ourWorldData, setOurWorldData] = useState([]);
   const [trackerData, setTrackerData] = useState([]);
   const [updated, setUpdated] = useState([]);
@@ -75,14 +82,53 @@ function DoseChart() {
     ...ourWorldData,
     ...trackerData,
   };
+
+  const countries = ["Israel", "United Kingdom", "United States", "Canada"];
+  const local = ["Canada", "Ontario"];
+
   return (
     <div className="App">
-      {FirstDoseChart(data)}
-      {FullyVaccinatedChart(data)}
-      {LocalFirstDoseChart(data)}
+      <h2> Canada vs other countries</h2>
+      {MasterChart(
+        data,
+        "First Dose",
+        countries.map((c) => ({
+          name: c,
+          data: chartData(data, "peopleVaccinated", c, population[c]),
+        }))
+      )}
+
+      {MasterChart(
+        data,
+        "Fully Vaccinated",
+        countries.map((c) => ({
+          name: c,
+          data: chartData(data, "peopleFullyVaccinated", c, population[c]),
+        }))
+      )}
+
+      <h2> Canada / Ontario</h2>
+      {MasterChart(
+        data,
+        "First Dose",
+        local.map((c) => ({
+          name: c,
+          data: chartData(data, "peopleVaccinated", c, population[c]),
+        }))
+      )}
+
+      {MasterChart(
+        data,
+        "Fully Vaccinated",
+        local.map((c) => ({
+          name: c,
+          data: chartData(data, "peopleFullyVaccinated", c, population[c]),
+        }))
+      )}
+
       <p> Data last updated at {updated}</p>
     </div>
   );
 }
 
-export default DoseChart;
+export default AllCharts;

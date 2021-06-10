@@ -1,11 +1,11 @@
 import "./App.css";
-import DoseChart from "./DoseChart";
+import AllCharts from "./AllCharts";
 
 function App() {
   return (
     <div style={{ textAlign: "center" }}>
       <div style={{ margin: 50 }} className="App">
-        <DoseChart />
+        <AllCharts />
       </div>
       <p>
         Data from{" "}

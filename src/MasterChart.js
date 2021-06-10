@@ -1,9 +1,8 @@
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import React from "react";
-import { chartData } from "./mungingUtils";
 
-function FirstDoseChart(data) {
+function MasterChart(data, title, series) {
   const options = {
     plotOptions: {
       line: {
@@ -30,7 +29,7 @@ function FirstDoseChart(data) {
       zoomType: "x",
     },
     title: {
-      text: "First Dose Coverage",
+      text: title,
     },
     xAxis: {
       type: "datetime",
@@ -49,26 +48,9 @@ function FirstDoseChart(data) {
         opposite: true,
       },
     ],
-    series: [
-      {
-        name: "Israel",
-        data: chartData(data, "peopleVaccinated", "Israel", 8652167),
-      },
-      {
-        name: "United Kingdom",
-        data: chartData(data, "peopleVaccinated", "United Kingdom", 67893379),
-      },
-      {
-        name: "United States",
-        data: chartData(data, "peopleVaccinated", "United States", 334438269),
-      },
-      {
-        name: "Canada",
-        data: chartData(data, "peopleVaccinated", "Canada", 37746527),
-      },
-    ],
+    series: series,
   };
   return <HighchartsReact highcharts={Highcharts} options={options} />;
 }
 
-export default FirstDoseChart;
+export default MasterChart;
