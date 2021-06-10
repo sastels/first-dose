@@ -23,6 +23,7 @@ const population = {
   Canada: 37746527,
   Ontario: 14745040,
   Ottawa: 1060658,
+  OttawaOPH: 1060658,
 };
 
 const lastUpdated = (data) => {
@@ -43,6 +44,7 @@ function AllCharts() {
   const [ourWorldData, setOurWorldData] = useState([]);
   const [ontarioData, setOntarioData] = useState([]);
   const [ottawaData, setOttawaData] = useState([]);
+  const [ophData, setOphData] = useState([]);
   const [updated, setUpdated] = useState([]);
 
   const getOurWorldData = async () => {
@@ -92,16 +94,32 @@ function AllCharts() {
     xhr.send();
   };
 
+  const getOPHData = async () => {
+    const storage = firebase.storage();
+    const storageRef = storage.ref();
+    const url = await storageRef.child("openOttawa.json").getDownloadURL();
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    xhr.onload = async () => {
+      var data = await xhr.response;
+      setOphData({ OttawaOPH: data.Ottawa });
+    };
+    xhr.open("GET", url);
+    xhr.send();
+  };
+
   useEffect(() => {
     getOurWorldData();
     getOntarioData();
     getOttawaData();
+    getOPHData();
   }, []);
 
   const data = {
     ...ourWorldData,
     ...ontarioData,
     ...ottawaData,
+    ...ophData,
   };
 
   const countries = ["Israel", "United Kingdom", "United States", "Canada"];
@@ -161,18 +179,15 @@ function AllCharts() {
 
       <h2>Active cases</h2>
 
-      <div class="cards">
-        <div class="card">
-          {MasterChart(
-            data,
-            "Active cases",
-            ["Ontario", "Ottawa"].map((c) => ({
-              name: c,
-              data: chartData(data, "activeCases", c, population[c], 0),
-            }))
-          )}
-        </div>
-      </div>
+      {MasterChart(
+        data,
+        "Active cases",
+        ["Ontario", "OttawaOPH"].map((c) => ({
+          name: c.startsWith("Ottawa") ? "Ottawa" : c,
+          data: chartData(data, "activeCases", c, population[c], 0),
+        })),
+        2
+      )}
 
       <p> Data last updated at {updated}</p>
     </div>

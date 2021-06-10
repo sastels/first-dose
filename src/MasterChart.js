@@ -2,7 +2,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import React from "react";
 
-function MasterChart(data, title, series) {
+function MasterChart(data, title, series, precision = 1) {
   const options = {
     plotOptions: {
       line: {
@@ -20,7 +20,7 @@ function MasterChart(data, title, series) {
         const date = yourDate.toISOString().split("T")[0];
         var retval = date + "<br>";
         retval += this.points
-          .map((x) => `${x.series.name}: ${x.y.toFixed(1)}%`)
+          .map((x) => `${x.series.name}: ${x.y.toFixed(precision)}%`)
           .join("<br>");
         return retval;
       },
