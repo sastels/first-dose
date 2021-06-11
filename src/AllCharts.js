@@ -5,6 +5,7 @@ import "firebase/storage";
 import MasterChart from "./MasterChart";
 import { chartData } from "./mungingUtils";
 import DoseTable from "./Tables";
+import Typography from "@material-ui/core/Typography";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCYOlqH5i8Q_nN_5i91JvUY3qU4Blan9Uo",
@@ -127,8 +128,10 @@ function AllCharts() {
   const local = ["Canada", "Ontario", "Ottawa"];
 
   return (
-    <div className="App">
-      <h2>Latest ({updated})</h2>
+    <div>
+      <Typography variant="h5" component="h2" gutterBottom>
+        Latest ({updated})
+      </Typography>
       <div class="cards">
         <div class="card">
           <DoseTable data={data} keys={countries} population={population} />
@@ -138,7 +141,10 @@ function AllCharts() {
         </div>
       </div>
 
-      <h2>Countries</h2>
+      <Typography variant="h5" component="h2" gutterBottom>
+        Countries
+      </Typography>
+
       <div class="cards">
         <div class="card">
           {MasterChart(
@@ -162,7 +168,9 @@ function AllCharts() {
         </div>
       </div>
 
-      <h2>Canada / Ontario / Ottawa</h2>
+      <Typography variant="h5" component="h2" gutterBottom>
+        Canada / Ontario / Ottawa
+      </Typography>
 
       <div class="cards">
         <div class="card">
