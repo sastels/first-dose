@@ -4,13 +4,13 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import Card from "@material-ui/core/Card";
 
 const DoseTable = (props) => {
   const { data, keys, population } = props;
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Card}>
       <Table size="small">
         <TableHead>
           <TableRow>

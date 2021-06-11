@@ -129,69 +129,85 @@ function AllCharts() {
 
   return (
     <div>
-      <Typography variant="h5" component="h2" gutterBottom>
-        Latest ({updated})
-      </Typography>
-      <div class="cards">
-        <div class="card">
-          <DoseTable data={data} keys={countries} population={population} />
-        </div>
-        <div class="card">
-          <DoseTable data={data} keys={local} population={population} />
-        </div>
-      </div>
-
-      <Typography variant="h5" component="h2" gutterBottom>
-        Countries
-      </Typography>
-
-      <div class="cards">
-        <div class="card">
-          {MasterChart(
-            data,
-            "First Dose",
-            countries.map((c) => ({
-              name: c,
-              data: chartData(data, "peopleVaccinated", c, population[c]),
-            }))
-          )}
-        </div>
-        <div class="card">
-          {MasterChart(
-            data,
-            "Fully Vaccinated",
-            countries.map((c) => ({
-              name: c,
-              data: chartData(data, "peopleFullyVaccinated", c, population[c]),
-            }))
-          )}
+      <div style={{ marginBottom: 50 }}>
+        <Typography variant="h5" component="h2">
+          Latest ({updated})
+        </Typography>
+        <div className="cards">
+          <div className="card">
+            <DoseTable data={data} keys={countries} population={population} />
+          </div>
+          <div className="card">
+            <DoseTable data={data} keys={local} population={population} />
+          </div>
         </div>
       </div>
 
-      <Typography variant="h5" component="h2" gutterBottom>
-        Canada / Ontario / Ottawa
-      </Typography>
+      <div style={{ marginBottom: 50 }}>
+        <Typography variant="h5" component="h2">
+          Countries
+        </Typography>
 
-      <div class="cards">
-        <div class="card">
-          {MasterChart(
-            data,
-            "First Dose",
-            local.map((c) => ({
-              name: c,
-              data: chartData(data, "peopleVaccinated", c, population[c]),
-            }))
-          )}
+        <div className="cards">
+          <div className="card">
+            {MasterChart(
+              data,
+              "First Dose",
+              countries.map((c) => ({
+                name: c,
+                data: chartData(data, "peopleVaccinated", c, population[c]),
+              }))
+            )}
+          </div>
+          <div className="card">
+            {MasterChart(
+              data,
+              "Fully Vaccinated",
+              countries.map((c) => ({
+                name: c,
+                data: chartData(
+                  data,
+                  "peopleFullyVaccinated",
+                  c,
+                  population[c]
+                ),
+              }))
+            )}
+          </div>
         </div>
-        <div class="card">
-          {MasterChart(
-            data,
-            "Fully Vaccinated",
-            local.map((c) => ({
-              name: c,
-              data: chartData(data, "peopleFullyVaccinated", c, population[c]),
-            }))
-          )}
+      </div>
+
+      <div style={{ marginBottom: 50 }}>
+        <Typography variant="h5" component="h2" gutterBottom>
+          Canada / Ontario / Ottawa
+        </Typography>
+
+        <div className="cards">
+          <div className="card">
+            {MasterChart(
+              data,
+              "First Dose",
+              local.map((c) => ({
+                name: c,
+                data: chartData(data, "peopleVaccinated", c, population[c]),
+              }))
+            )}
+          </div>
+          <div className="card">
+            {MasterChart(
+              data,
+              "Fully Vaccinated",
+              local.map((c) => ({
+                name: c,
+                data: chartData(
+                  data,
+                  "peopleFullyVaccinated",
+                  c,
+                  population[c]
+                ),
+              }))
+            )}
+          </div>
         </div>
       </div>
 
@@ -205,8 +221,6 @@ function AllCharts() {
         0,
         "number"
       )}
-
-      <p> Data last updated at {updated}</p>
     </div>
   );
 }
