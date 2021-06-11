@@ -2,7 +2,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import React from "react";
 
-function MasterChart(data, title, series, precision = 1) {
+function MasterChart(data, title, series, precision = 1, type = "percent") {
   const options = {
     plotOptions: {
       line: {
@@ -20,7 +20,11 @@ function MasterChart(data, title, series, precision = 1) {
         const date = yourDate.toISOString().split("T")[0];
         var retval = date + "<br>";
         retval += this.points
-          .map((x) => `${x.series.name}: ${x.y.toFixed(precision)}%`)
+          .map(
+            (x) =>
+              `${x.series.name}: ${x.y.toFixed(precision)}` +
+              (type === "percent" ? "%" : "")
+          )
           .join("<br>");
         return retval;
       },
@@ -37,7 +41,7 @@ function MasterChart(data, title, series, precision = 1) {
     yAxis: [
       {
         title: {
-          text: "Percentage covered",
+          text: type === "percent" ? "Percentage covered" : "",
         },
       },
       {
