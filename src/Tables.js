@@ -1,10 +1,12 @@
+import "./Tables.css";
+
 const DoseTable = (props) => {
   const { data, keys, population } = props;
 
   return (
     <table>
       <tr>
-        <th>Country</th>
+        <th></th>
         <th>First Dose</th>
         <th>Fully Vaccinated</th>
       </tr>

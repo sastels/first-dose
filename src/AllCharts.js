@@ -128,6 +128,16 @@ function AllCharts() {
 
   return (
     <div className="App">
+      <h2>Latest</h2>
+      <div class="cards">
+        <div class="card">
+          <DoseTable data={data} keys={countries} population={population} />
+        </div>
+        {/* <div class="card">
+          <DoseTable data={data} keys={local} population={population} />
+        </div> */}
+      </div>
+
       <h2>Countries</h2>
       <div class="cards">
         <div class="card">
@@ -151,8 +161,6 @@ function AllCharts() {
           )}
         </div>
       </div>
-
-      <DoseTable data={data} keys={countries} population={population} />
 
       <h2>Canada / Ontario / Ottawa</h2>
 
