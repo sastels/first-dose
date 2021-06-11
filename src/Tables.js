@@ -7,7 +7,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Card from "@material-ui/core/Card";
 
 const DoseTable = (props) => {
-  const { data, keys, population } = props;
+  var { data, keys, population } = props;
 
   return (
     <TableContainer component={Card}>
@@ -20,36 +20,28 @@ const DoseTable = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {keys
-            .sort(
-              (a, b) =>
-                data[a] &&
-                data[b] &&
-                data[a].slice(-1)[0].peopleVaccinated / population[a] <
-                  data[b].slice(-1)[0].peopleVaccinated / population[b]
-            )
-            .map(
-              (key) =>
-                data[key] && (
-                  <TableRow key={key}>
-                    <TableCell>{key}</TableCell>
-                    <TableCell>
-                      {(
-                        (data[key].slice(-1)[0].peopleVaccinated * 100) /
-                        population[key]
-                      ).toFixed(1)}{" "}
-                      %
-                    </TableCell>
-                    <TableCell>
-                      {(
-                        (data[key].slice(-1)[0].peopleFullyVaccinated * 100) /
-                        population[key]
-                      ).toFixed(1)}{" "}
-                      %
-                    </TableCell>
-                  </TableRow>
-                )
-            )}
+          {keys.map(
+            (key) =>
+              data[key] && (
+                <TableRow key={key}>
+                  <TableCell>{key}</TableCell>
+                  <TableCell>
+                    {(
+                      (data[key].slice(-1)[0].peopleVaccinated * 100) /
+                      population[key]
+                    ).toFixed(1)}{" "}
+                    %
+                  </TableCell>
+                  <TableCell>
+                    {(
+                      (data[key].slice(-1)[0].peopleFullyVaccinated * 100) /
+                      population[key]
+                    ).toFixed(1)}{" "}
+                    %
+                  </TableCell>
+                </TableRow>
+              )
+          )}
         </TableBody>
       </Table>
     </TableContainer>

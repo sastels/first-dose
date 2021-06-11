@@ -127,6 +127,19 @@ function AllCharts() {
   const countries = ["Israel", "United Kingdom", "United States", "Canada"];
   const local = ["Canada", "Ontario", "Ottawa"];
 
+  if ([...countries, ...local].some((k) => !(k in data))) {
+    return "";
+  }
+
+  const compareFunction = (a, b) => {
+    let aV = data[a].slice(-1)[0].peopleVaccinated / population[a];
+    let bV = data[b].slice(-1)[0].peopleVaccinated / population[b];
+    if (aV < bV) return 1;
+    else if (bV < aV) return -1;
+    else return 0;
+  };
+  countries.sort(compareFunction);
+
   return (
     <div>
       <div style={{ marginBottom: 50 }}>
