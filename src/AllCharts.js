@@ -177,16 +177,15 @@ function AllCharts() {
         </div>
       </div>
 
-      <h2>Active cases</h2>
-
       {MasterChart(
         data,
-        "Active cases",
+        "Active cases per 100,000",
         ["Ontario", "OttawaOPH"].map((c) => ({
           name: c.startsWith("Ottawa") ? "Ottawa" : c,
-          data: chartData(data, "activeCases", c, population[c], 0),
+          data: chartData(data, "activeCases", c, population[c], 0, 100000),
         })),
-        2
+        0,
+        "number"
       )}
 
       <p> Data last updated at {updated}</p>
