@@ -128,14 +128,14 @@ function AllCharts() {
 
   return (
     <div className="App">
-      <h2>Latest</h2>
+      <h2>Latest ({updated})</h2>
       <div class="cards">
         <div class="card">
           <DoseTable data={data} keys={countries} population={population} />
         </div>
-        {/* <div class="card">
+        <div class="card">
           <DoseTable data={data} keys={local} population={population} />
-        </div> */}
+        </div>
       </div>
 
       <h2>Countries</h2>
