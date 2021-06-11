@@ -4,6 +4,7 @@ import firebase from "firebase/app";
 import "firebase/storage";
 import MasterChart from "./MasterChart";
 import { chartData } from "./mungingUtils";
+import DoseTable from "./Tables";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCYOlqH5i8Q_nN_5i91JvUY3qU4Blan9Uo",
@@ -139,7 +140,6 @@ function AllCharts() {
             }))
           )}
         </div>
-
         <div class="card">
           {MasterChart(
             data,
@@ -151,6 +151,8 @@ function AllCharts() {
           )}
         </div>
       </div>
+
+      <DoseTable data={data} keys={countries} population={population} />
 
       <h2>Canada / Ontario / Ottawa</h2>
 
