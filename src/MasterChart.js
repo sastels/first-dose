@@ -1,6 +1,7 @@
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import React from "react";
+import Card from "@material-ui/core/Card";
 
 function MasterChart(data, title, series, precision = 1, type = "percent") {
   const options = {
@@ -54,7 +55,11 @@ function MasterChart(data, title, series, precision = 1, type = "percent") {
     ],
     series: series,
   };
-  return <HighchartsReact highcharts={Highcharts} options={options} />;
+  return (
+    <Card>
+      <HighchartsReact highcharts={Highcharts} options={options} />
+    </Card>
+  );
 }
 
 export default MasterChart;

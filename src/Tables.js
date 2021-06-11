@@ -1,50 +1,50 @@
-import "./Tables.css";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Card from "@material-ui/core/Card";
 
 const DoseTable = (props) => {
-  const { data, keys, population } = props;
+  var { data, keys, population } = props;
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th>First Dose</th>
-          <th>Fully Vaccinated</th>
-        </tr>
-      </thead>
-      <tbody>
-        {keys
-          .sort(
-            (a, b) =>
-              data[a] &&
-              data[b] &&
-              data[a].slice(-1)[0].peopleVaccinated / population[a] <
-                data[b].slice(-1)[0].peopleVaccinated / population[b]
-          )
-          .map(
+    <TableContainer component={Card}>
+      <Table size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell></TableCell>
+            <TableCell>First Dose</TableCell>
+            <TableCell>Fully Vaccinated</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {keys.map(
             (key) =>
               data[key] && (
-                <tr key={key}>
-                  <td>{key}</td>
-                  <td>
+                <TableRow key={key}>
+                  <TableCell>{key}</TableCell>
+                  <TableCell>
                     {(
                       (data[key].slice(-1)[0].peopleVaccinated * 100) /
                       population[key]
                     ).toFixed(1)}{" "}
                     %
-                  </td>
-                  <td>
+                  </TableCell>
+                  <TableCell>
                     {(
                       (data[key].slice(-1)[0].peopleFullyVaccinated * 100) /
                       population[key]
                     ).toFixed(1)}{" "}
                     %
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               )
           )}
-      </tbody>
-    </table>
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 

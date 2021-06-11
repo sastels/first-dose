@@ -5,6 +5,7 @@ import "firebase/storage";
 import MasterChart from "./MasterChart";
 import { chartData } from "./mungingUtils";
 import DoseTable from "./Tables";
+import Typography from "@material-ui/core/Typography";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCYOlqH5i8Q_nN_5i91JvUY3qU4Blan9Uo",
@@ -126,64 +127,100 @@ function AllCharts() {
   const countries = ["Israel", "United Kingdom", "United States", "Canada"];
   const local = ["Canada", "Ontario", "Ottawa"];
 
+  if ([...countries, ...local].some((k) => !(k in data))) {
+    return "";
+  }
+
+  const compareFunction = (a, b) => {
+    let aV = data[a].slice(-1)[0].peopleVaccinated / population[a];
+    let bV = data[b].slice(-1)[0].peopleVaccinated / population[b];
+    if (aV < bV) return 1;
+    else if (bV < aV) return -1;
+    else return 0;
+  };
+  countries.sort(compareFunction);
+
   return (
-    <div className="App">
-      <h2>Latest ({updated})</h2>
-      <div class="cards">
-        <div class="card">
-          <DoseTable data={data} keys={countries} population={population} />
-        </div>
-        <div class="card">
-          <DoseTable data={data} keys={local} population={population} />
-        </div>
-      </div>
-
-      <h2>Countries</h2>
-      <div class="cards">
-        <div class="card">
-          {MasterChart(
-            data,
-            "First Dose",
-            countries.map((c) => ({
-              name: c,
-              data: chartData(data, "peopleVaccinated", c, population[c]),
-            }))
-          )}
-        </div>
-        <div class="card">
-          {MasterChart(
-            data,
-            "Fully Vaccinated",
-            countries.map((c) => ({
-              name: c,
-              data: chartData(data, "peopleFullyVaccinated", c, population[c]),
-            }))
-          )}
+    <div>
+      <div style={{ marginBottom: 50 }}>
+        <Typography variant="h5" component="h2">
+          Latest ({updated})
+        </Typography>
+        <div className="cards">
+          <div className="card">
+            <DoseTable data={data} keys={countries} population={population} />
+          </div>
+          <div className="card">
+            <DoseTable data={data} keys={local} population={population} />
+          </div>
         </div>
       </div>
 
-      <h2>Canada / Ontario / Ottawa</h2>
+      <div style={{ marginBottom: 50 }}>
+        <Typography variant="h5" component="h2">
+          Countries
+        </Typography>
 
-      <div class="cards">
-        <div class="card">
-          {MasterChart(
-            data,
-            "First Dose",
-            local.map((c) => ({
-              name: c,
-              data: chartData(data, "peopleVaccinated", c, population[c]),
-            }))
-          )}
+        <div className="cards">
+          <div className="card">
+            {MasterChart(
+              data,
+              "First Dose",
+              countries.map((c) => ({
+                name: c,
+                data: chartData(data, "peopleVaccinated", c, population[c]),
+              }))
+            )}
+          </div>
+          <div className="card">
+            {MasterChart(
+              data,
+              "Fully Vaccinated",
+              countries.map((c) => ({
+                name: c,
+                data: chartData(
+                  data,
+                  "peopleFullyVaccinated",
+                  c,
+                  population[c]
+                ),
+              }))
+            )}
+          </div>
         </div>
-        <div class="card">
-          {MasterChart(
-            data,
-            "Fully Vaccinated",
-            local.map((c) => ({
-              name: c,
-              data: chartData(data, "peopleFullyVaccinated", c, population[c]),
-            }))
-          )}
+      </div>
+
+      <div style={{ marginBottom: 50 }}>
+        <Typography variant="h5" component="h2" gutterBottom>
+          Canada / Ontario / Ottawa
+        </Typography>
+
+        <div className="cards">
+          <div className="card">
+            {MasterChart(
+              data,
+              "First Dose",
+              local.map((c) => ({
+                name: c,
+                data: chartData(data, "peopleVaccinated", c, population[c]),
+              }))
+            )}
+          </div>
+          <div className="card">
+            {MasterChart(
+              data,
+              "Fully Vaccinated",
+              local.map((c) => ({
+                name: c,
+                data: chartData(
+                  data,
+                  "peopleFullyVaccinated",
+                  c,
+                  population[c]
+                ),
+              }))
+            )}
+          </div>
         </div>
       </div>
 
@@ -197,8 +234,6 @@ function AllCharts() {
         0,
         "number"
       )}
-
-      <p> Data last updated at {updated}</p>
     </div>
   );
 }
