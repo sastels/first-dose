@@ -1,4 +1,5 @@
 const functions = require("firebase-functions");
+const { getGoCData } = require("./goc");
 const { getOurWorldInData } = require("./ourWorldInData");
 const {
   getOntarioData,
@@ -34,3 +35,8 @@ exports.mungeOpenOttawa = functions.pubsub
     getOpenOttawaData();
     return null;
   });
+
+exports.mungeGoC = functions.pubsub.schedule("every 6 hours").onRun(() => {
+  getGoCData();
+  return null;
+});
