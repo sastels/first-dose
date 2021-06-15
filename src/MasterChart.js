@@ -31,6 +31,12 @@ function MasterChart(title, series, precision = 1, type = "percent") {
     },
     chart: {
       zoomType: "x",
+      resetZoomButton: {
+        position: {
+          align: "left",
+          y: -40,
+        },
+      },
     },
     title: {
       text: title,
