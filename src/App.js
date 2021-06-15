@@ -6,7 +6,7 @@ function App() {
   return (
     <div style={{ textAlign: "center" }}>
       <Typography variant="h4" component="h1">
-        Ottawa Covid Information
+        Ottawa Covid Statistics
       </Typography>
 
       <div style={{ margin: 50 }} className="App">
@@ -20,6 +20,7 @@ function App() {
         {" and "}
         <a href="https://open.ottawa.ca/">Open Ottawa</a>
       </Typography>
+      <br />
       <Typography varient="body1">
         Code in <a href="https://github.com/sastels/first-dose">Github</a>
       </Typography>
