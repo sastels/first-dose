@@ -164,7 +164,6 @@ function AllCharts() {
         <div className="cards">
           <div className="card">
             {MasterChart(
-              data,
               "First Dose",
               countries.map((c) => ({
                 name: c,
@@ -174,7 +173,6 @@ function AllCharts() {
           </div>
           <div className="card">
             {MasterChart(
-              data,
               "Fully Vaccinated",
               countries.map((c) => ({
                 name: c,
@@ -198,7 +196,6 @@ function AllCharts() {
         <div className="cards">
           <div className="card">
             {MasterChart(
-              data,
               "First Dose",
               local.map((c) => ({
                 name: c,
@@ -208,7 +205,6 @@ function AllCharts() {
           </div>
           <div className="card">
             {MasterChart(
-              data,
               "Fully Vaccinated",
               local.map((c) => ({
                 name: c,
@@ -225,7 +221,6 @@ function AllCharts() {
       </div>
 
       {MasterChart(
-        data,
         "Active cases per 100,000",
         ["Ontario", "OttawaOPH"].map((c) => ({
           name: c.startsWith("Ottawa") ? "Ottawa" : c,
