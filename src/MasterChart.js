@@ -1,9 +1,8 @@
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import React from "react";
-import Card from "@material-ui/core/Card";
 
-function MasterChart(data, title, series, precision = 1, type = "percent") {
+function MasterChart(title, series, precision = 1, type = "percent") {
   const options = {
     plotOptions: {
       line: {
@@ -56,9 +55,9 @@ function MasterChart(data, title, series, precision = 1, type = "percent") {
     series: series,
   };
   return (
-    <Card>
+    <div style={{ boxShadow: "0 0 3px #ddd" }}>
       <HighchartsReact highcharts={Highcharts} options={options} />
-    </Card>
+    </div>
   );
 }
 
