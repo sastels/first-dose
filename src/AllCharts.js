@@ -44,6 +44,7 @@ const lastUpdated = (data) => {
 
 function AllCharts() {
   const [ourWorldData, setOurWorldData] = useState([]);
+  const [canadaData, setCanadaData] = useState([]);
   const [ontarioData, setOntarioData] = useState([]);
   const [ottawaData, setOttawaData] = useState([]);
   const [ophData, setOphData] = useState([]);
@@ -59,6 +60,22 @@ function AllCharts() {
       var data = await xhr.response;
       setOurWorldData(data);
       setUpdated(lastUpdated(data));
+    };
+    xhr.open("GET", url);
+    xhr.send();
+  };
+
+  const getCanadaData = async () => {
+    const storage = firebase.storage();
+    const storageRef = storage.ref();
+    const url = await storageRef
+      .child("covid19_tracker_canada.json")
+      .getDownloadURL();
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    xhr.onload = async () => {
+      var data = await xhr.response;
+      setCanadaData(data);
     };
     xhr.open("GET", url);
     xhr.send();
@@ -112,6 +129,7 @@ function AllCharts() {
 
   useEffect(() => {
     getOurWorldData();
+    getCanadaData();
     getOntarioData();
     getOttawaData();
     getOPHData();
@@ -119,6 +137,7 @@ function AllCharts() {
 
   const data = {
     ...ourWorldData,
+    ...canadaData,
     ...ontarioData,
     ...ottawaData,
     ...ophData,
@@ -222,7 +241,7 @@ function AllCharts() {
 
       {MasterChart(
         "Active cases per 100,000",
-        ["Ontario", "OttawaOPH"].map((c) => ({
+        ["Canada", "Ontario", "OttawaOPH"].map((c) => ({
           name: c.startsWith("Ottawa") ? "Ottawa" : c,
           data: chartData(data, "activeCases", c, population[c], 0, 100000),
         })),
