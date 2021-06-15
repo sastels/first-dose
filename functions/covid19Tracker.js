@@ -23,6 +23,16 @@ const mungeCovid19TrackerData = (data, area) => {
   };
 };
 
+const getCanadaData = () => {
+  const dataFileName = "https://api.covid19tracker.ca/reports/";
+  return fetch(dataFileName)
+    .then((res) => res.json())
+    .then((json) => mungeCovid19TrackerData(json, "Canada"))
+    .then((data) => {
+      uploadFile(data, "covid19_tracker_canada.json");
+    });
+};
+
 const getOntarioData = () => {
   const dataFileName = "https://api.covid19tracker.ca/reports/province/on";
   return fetch(dataFileName)
@@ -45,6 +55,8 @@ const getOttawaData = () => {
 
 // getOntarioData();
 // getOttawaData();
+getCanadaData();
 
 exports.getOntarioData = getOntarioData;
 exports.getOttawaData = getOttawaData;
+exports.getCanadaData = getCanadaData;
