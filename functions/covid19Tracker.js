@@ -17,6 +17,7 @@ const mungeCovid19TrackerData = (data, area) => {
       dateString: day.date,
       peopleVaccinated: day.total_vaccinations - day.total_vaccinated,
       peopleFullyVaccinated: day.total_vaccinated,
+      changeCases: day.change_cases,
       activeCases:
         day.total_cases - day.total_fatalities - day.total_recoveries,
     })),
@@ -55,7 +56,7 @@ const getOttawaData = () => {
 
 // getOntarioData();
 // getOttawaData();
-getCanadaData();
+// getCanadaData();
 
 exports.getOntarioData = getOntarioData;
 exports.getOttawaData = getOttawaData;
