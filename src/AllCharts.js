@@ -23,6 +23,7 @@ const population = {
   "United Kingdom": 67893379,
   "United States": 334438269,
   Canada: 37746527,
+  CanadaGoC: 37746527,
   Ontario: 14745040,
   Ottawa: 1060658,
   OttawaOPH: 1060658,
@@ -68,9 +69,7 @@ function AllCharts() {
   const getCanadaData = async () => {
     const storage = firebase.storage();
     const storageRef = storage.ref();
-    const url = await storageRef
-      .child("covid19_tracker_canada.json")
-      .getDownloadURL();
+    const url = await storageRef.child("GoC.json").getDownloadURL();
     var xhr = new XMLHttpRequest();
     xhr.responseType = "json";
     xhr.onload = async () => {
@@ -241,10 +240,18 @@ function AllCharts() {
 
       {MasterChart(
         "Active cases per 100,000",
-        ["Canada", "Ontario", "OttawaOPH"].map((c) => ({
-          name: c.startsWith("Ottawa") ? "Ottawa" : c,
-          data: chartData(data, "activeCases", c, population[c], 0, 100000),
-        })),
+        ["CanadaGoC", "Ontario", "OttawaOPH"].map((c) => {
+          var name = c;
+          if (name.startsWith("Ottawa")) {
+            name = "Ottawa";
+          } else if (name.startsWith("Canada")) {
+            name = "CanadaG";
+          }
+          return {
+            name,
+            data: chartData(data, "activeCases", c, population[c], 0, 100000),
+          };
+        }),
         0,
         "number"
       )}
