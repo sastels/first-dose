@@ -5,7 +5,7 @@ const {
   getOttawaData,
   getCanadaData,
 } = require("./covid19Tracker");
-const { getOpenOttawaData } = require("./openOttawa");
+// const { getOpenOttawaData } = require("./openOttawa");
 
 exports.helloWorld = functions.https.onRequest((_, response) => {
   functions.logger.info("Hello logs!", { structuredData: true });
@@ -28,9 +28,9 @@ exports.mungeCovid19Tracker = functions.pubsub
     return null;
   });
 
-exports.mungeOpenOttawa = functions.pubsub
-  .schedule("every 6 hours")
-  .onRun(() => {
-    getOpenOttawaData();
-    return null;
-  });
+// exports.mungeOpenOttawa = functions.pubsub
+//   .schedule("every 6 hours")
+//   .onRun(() => {
+//     getOpenOttawaData();
+//     return null;
+//   });
