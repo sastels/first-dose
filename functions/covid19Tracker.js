@@ -11,16 +11,22 @@ async function uploadFile(data, fileName) {
 }
 
 const mungeCovid19TrackerData = (data, area) => {
+  var lastWeek = [0, 0, 0, 0, 0, 0, 0];
   return {
-    [area]: data.data.map((day) => ({
-      date: Date.parse(day.date),
-      dateString: day.date,
-      peopleVaccinated: day.total_vaccinations - day.total_vaccinated,
-      peopleFullyVaccinated: day.total_vaccinated,
-      changeCases: day.change_cases,
-      activeCases:
-        day.total_cases - day.total_fatalities - day.total_recoveries,
-    })),
+    [area]: data.data.map((day) => {
+      lastWeek.shift();
+      lastWeek.push(day.change_cases);
+      return {
+        date: Date.parse(day.date),
+        dateString: day.date,
+        peopleVaccinated: day.total_vaccinations - day.total_vaccinated,
+        peopleFullyVaccinated: day.total_vaccinated,
+        changeCases: day.change_cases,
+        changeCasesPastWeek: Math.round(lastWeek.reduce((a, b) => a + b, 0)),
+        activeCases:
+          day.total_cases - day.total_fatalities - day.total_recoveries,
+      };
+    }),
   };
 };
 

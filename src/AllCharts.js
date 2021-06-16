@@ -25,7 +25,7 @@ const population = {
   Canada: 37746527,
   Ontario: 14745040,
   Ottawa: 1060658,
-  OttawaOPH: 1060658,
+  // OttawaOPH: 1060658,
 };
 
 const lastUpdated = (data) => {
@@ -47,7 +47,7 @@ function AllCharts() {
   const [canadaData, setCanadaData] = useState([]);
   const [ontarioData, setOntarioData] = useState([]);
   const [ottawaData, setOttawaData] = useState([]);
-  const [ophData, setOphData] = useState([]);
+  // const [ophData, setOphData] = useState([]);
   const [updated, setUpdated] = useState([]);
 
   const getOurWorldData = async () => {
@@ -113,26 +113,26 @@ function AllCharts() {
     xhr.send();
   };
 
-  const getOPHData = async () => {
-    const storage = firebase.storage();
-    const storageRef = storage.ref();
-    const url = await storageRef.child("openOttawa.json").getDownloadURL();
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = "json";
-    xhr.onload = async () => {
-      var data = await xhr.response;
-      setOphData({ OttawaOPH: data.Ottawa });
-    };
-    xhr.open("GET", url);
-    xhr.send();
-  };
+  // const getOPHData = async () => {
+  //   const storage = firebase.storage();
+  //   const storageRef = storage.ref();
+  //   const url = await storageRef.child("openOttawa.json").getDownloadURL();
+  //   var xhr = new XMLHttpRequest();
+  //   xhr.responseType = "json";
+  //   xhr.onload = async () => {
+  //     var data = await xhr.response;
+  //     setOphData({ OttawaOPH: data.Ottawa });
+  //   };
+  //   xhr.open("GET", url);
+  //   xhr.send();
+  // };
 
   useEffect(() => {
     getOurWorldData();
     getCanadaData();
     getOntarioData();
     getOttawaData();
-    getOPHData();
+    // getOPHData();
   }, []);
 
   const data = {
@@ -140,7 +140,7 @@ function AllCharts() {
     ...canadaData,
     ...ontarioData,
     ...ottawaData,
-    ...ophData,
+    // ...ophData,
   };
 
   const countries = ["Israel", "United Kingdom", "United States", "Canada"];
@@ -240,10 +240,17 @@ function AllCharts() {
       </div>
 
       {MasterChart(
-        "Active cases per 100,000",
-        ["Canada", "Ontario", "OttawaOPH"].map((c) => ({
+        "New cases this week per 100,000",
+        ["Canada", "Ontario", "Ottawa"].map((c) => ({
           name: c.startsWith("Ottawa") ? "Ottawa" : c,
-          data: chartData(data, "activeCases", c, population[c], 0, 100000),
+          data: chartData(
+            data,
+            "changeCasesPastWeek",
+            c,
+            population[c],
+            0,
+            100000
+          ),
         })),
         0,
         "number"
