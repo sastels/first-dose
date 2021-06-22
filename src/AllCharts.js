@@ -252,7 +252,7 @@ function AllCharts() {
             100000
           ),
         })),
-        0,
+        1,
         "number"
       )}
     </div>
