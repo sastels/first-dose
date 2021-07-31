@@ -2,7 +2,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import React from "react";
 
-function MasterChart(title, series, precision = 1, type = "percent") {
+function MasterChart(title, series, precision = 1, type = "percent", max=null) {
   const options = {
     plotOptions: {
       line: {
@@ -49,6 +49,7 @@ function MasterChart(title, series, precision = 1, type = "percent") {
         title: {
           text: type === "percent" ? "Percentage covered" : "",
         },
+        max,
       },
       {
         title: {

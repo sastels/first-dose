@@ -27,7 +27,6 @@ const population = {
   Canada: 37746527,
   Ontario: 14745040,
   Ottawa: 1060658,
-  // OttawaOPH: 1060658,
 };
 
 /*
@@ -71,7 +70,7 @@ function AllCharts() {
   const [ontarioData, setOntarioData] = useState([]);
   const [ottawaData, setOttawaData] = useState([]);
   const [updated, setUpdated] = useState([]);
-  const [onlyEligible, setOnlyEligible] = useState(false);
+  const [onlyEligible, setOnlyEligible] = useState(true);
 
   const getOurWorldData = async () => {
     const storage = firebase.storage();
@@ -135,20 +134,6 @@ function AllCharts() {
     xhr.open("GET", url);
     xhr.send();
   };
-
-  // const getOPHData = async () => {
-  //   const storage = firebase.storage();
-  //   const storageRef = storage.ref();
-  //   const url = await storageRef.child("openOttawa.json").getDownloadURL();
-  //   var xhr = new XMLHttpRequest();
-  //   xhr.responseType = "json";
-  //   xhr.onload = async () => {
-  //     var data = await xhr.response;
-  //     setOphData({ OttawaOPH: data.Ottawa });
-  //   };
-  //   xhr.open("GET", url);
-  //   xhr.send();
-  // };
 
   useEffect(() => {
     getOurWorldData();
@@ -264,7 +249,10 @@ function AllCharts() {
               local.map((c) => ({
                 name: c,
                 data: chartData(data, "peopleVaccinated", c, onlyEligible ? eligiblePopulation[c] : population[c]),
-              }))
+              })),
+              1,
+              "percent",
+              onlyEligible ? 100 : null
             )}
           </div>
           <div className="card">
@@ -278,7 +266,10 @@ function AllCharts() {
                   c,
                   onlyEligible ? eligiblePopulation[c] : population[c]
                 ),
-              }))
+              })),
+              1,
+              "percent",
+              onlyEligible ? 100 : null
             )}
           </div>
         </div>
