@@ -6,6 +6,8 @@ import MasterChart from "./MasterChart";
 import { chartData } from "./mungingUtils";
 import DoseTable from "./Tables";
 import Typography from "@material-ui/core/Typography";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCYOlqH5i8Q_nN_5i91JvUY3qU4Blan9Uo",
@@ -25,8 +27,28 @@ const population = {
   Canada: 37746527,
   Ontario: 14745040,
   Ottawa: 1060658,
-  // OttawaOPH: 1060658,
 };
+
+/*
+2016 Census
+Canada: 35,151,725
+0 - 11: 4689950 = 1,898,790 + 2,018,130 + 389,160 + 383,870
+12+: 0.86657980511
+
+Ontario: 13,448,495
+0 - 11: 1754810 =  697,360 + 756,085 + 150,380 + 150,985
+12+: 0.86951625442
+
+Ottawa: 991,725
+0-11: 131900 = 51,980 + 57,335 + 11,185 + 11,400
+12+: 0.8669994202
+*/
+const eligiblePopulation = {
+  Canada: 0.86657980511 * population.Canada,
+  Ontario: 0.86951625442 * population.Ontario,
+  Ottawa: 0.8669994202 * population.Ottawa
+};
+
 
 const lastUpdated = (data) => {
   var lastDate = null;
@@ -47,8 +69,8 @@ function AllCharts() {
   const [canadaData, setCanadaData] = useState([]);
   const [ontarioData, setOntarioData] = useState([]);
   const [ottawaData, setOttawaData] = useState([]);
-  // const [ophData, setOphData] = useState([]);
   const [updated, setUpdated] = useState([]);
+  const [onlyEligible, setOnlyEligible] = useState(true);
 
   const getOurWorldData = async () => {
     const storage = firebase.storage();
@@ -113,26 +135,11 @@ function AllCharts() {
     xhr.send();
   };
 
-  // const getOPHData = async () => {
-  //   const storage = firebase.storage();
-  //   const storageRef = storage.ref();
-  //   const url = await storageRef.child("openOttawa.json").getDownloadURL();
-  //   var xhr = new XMLHttpRequest();
-  //   xhr.responseType = "json";
-  //   xhr.onload = async () => {
-  //     var data = await xhr.response;
-  //     setOphData({ OttawaOPH: data.Ottawa });
-  //   };
-  //   xhr.open("GET", url);
-  //   xhr.send();
-  // };
-
   useEffect(() => {
     getOurWorldData();
     getCanadaData();
     getOntarioData();
     getOttawaData();
-    // getOPHData();
   }, []);
 
   const data = {
@@ -140,7 +147,6 @@ function AllCharts() {
     ...canadaData,
     ...ontarioData,
     ...ottawaData,
-    // ...ophData,
   };
 
   const countries = ["Israel", "United Kingdom", "United States", "Canada"];
@@ -170,7 +176,19 @@ function AllCharts() {
             <DoseTable data={data} keys={countries} population={population} />
           </div>
           <div className="card">
-            <DoseTable data={data} keys={local} population={population} />
+
+          <FormControlLabel
+            control={
+              <Switch
+                checked={onlyEligible}
+                onChange={event => setOnlyEligible(event.target.checked)}
+                name="onlyEligible"
+                color="primary"
+              />
+            }
+            label="12+"
+          />
+            <DoseTable data={data} keys={local} population={onlyEligible ? eligiblePopulation : population} />
           </div>
         </div>
       </div>
@@ -212,14 +230,29 @@ function AllCharts() {
           Canada / Ontario / Ottawa
         </Typography>
 
+        <FormControlLabel
+            control={
+              <Switch
+                checked={onlyEligible}
+                onChange={event => setOnlyEligible(event.target.checked)}
+                name="onlyEligible"
+                color="primary"
+              />
+            }
+            label="12+"
+          />
+
         <div className="cards">
           <div className="card">
             {MasterChart(
               "First Dose",
               local.map((c) => ({
                 name: c,
-                data: chartData(data, "peopleVaccinated", c, population[c]),
-              }))
+                data: chartData(data, "peopleVaccinated", c, onlyEligible ? eligiblePopulation[c] : population[c]),
+              })),
+              1,
+              "percent",
+              onlyEligible ? 100 : null
             )}
           </div>
           <div className="card">
@@ -231,9 +264,12 @@ function AllCharts() {
                   data,
                   "peopleFullyVaccinated",
                   c,
-                  population[c]
+                  onlyEligible ? eligiblePopulation[c] : population[c]
                 ),
-              }))
+              })),
+              1,
+              "percent",
+              onlyEligible ? 100 : null
             )}
           </div>
         </div>
