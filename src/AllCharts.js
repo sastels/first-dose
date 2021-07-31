@@ -24,9 +24,9 @@ const population = {
   Israel: 8652167,
   "United Kingdom": 67893379,
   "United States": 334438269,
-  Canada: 37746527,
-  Ontario: 14745040,
-  Ottawa: 1060658,
+  Canada: 38131204, // estimate from covid19tracker.ca
+  Ontario: 14789821, // estimate from covid19tracker.ca
+  Ottawa: 1057022 // estimate from OPH vaccination dashboard
 };
 
 /*
