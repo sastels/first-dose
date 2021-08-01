@@ -14,8 +14,8 @@ const DoseTable = (props) => {
         <TableHead>
           <TableRow>
             <TableCell></TableCell>
-            <TableCell>First Dose</TableCell>
-            <TableCell>Fully Vaccinated</TableCell>
+            <TableCell>First dose</TableCell>
+            <TableCell>Fully vaccinated</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -29,14 +29,24 @@ const DoseTable = (props) => {
                       (data[key].slice(-1)[0].peopleVaccinated * 100) /
                       population[key]
                     ).toFixed(1)}{" "}
-                    %
+                    % (+
+                      {(
+                      (data[key].slice(-1)[0].changePeopleVaccinatedPastWeek * 100) /
+                      population[key]
+                    ).toFixed(1)}{" "}
+                    %)
                   </TableCell>
                   <TableCell>
                     {(
                       (data[key].slice(-1)[0].peopleFullyVaccinated * 100) /
                       population[key]
                     ).toFixed(1)}{" "}
-                    %
+                    % (+
+                      {(
+                      (data[key].slice(-1)[0].changePeopleFullyVaccinatedPastWeek * 100) /
+                      population[key]
+                    ).toFixed(1)}{" "}
+                    %)
                   </TableCell>
                 </TableRow>
               )

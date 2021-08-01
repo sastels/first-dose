@@ -169,7 +169,7 @@ function AllCharts() {
     <div>
       <div style={{ marginBottom: 50 }}>
         <Typography variant="h5" component="h2">
-          Latest ({updated})
+          Coverage and week over week ({updated})
         </Typography>
         <div className="cards">
           <div className="card">
@@ -201,7 +201,7 @@ function AllCharts() {
         <div className="cards">
           <div className="card">
             {MasterChart(
-              "First Dose",
+              "First dose",
               countries.map((c) => ({
                 name: c,
                 data: chartData(data, "peopleVaccinated", c, population[c]),
@@ -210,7 +210,7 @@ function AllCharts() {
           </div>
           <div className="card">
             {MasterChart(
-              "Fully Vaccinated",
+              "Fully vaccinated",
               countries.map((c) => ({
                 name: c,
                 data: chartData(
@@ -245,7 +245,7 @@ function AllCharts() {
         <div className="cards">
           <div className="card">
             {MasterChart(
-              "First Dose",
+              "First dose",
               local.map((c) => ({
                 name: c,
                 data: chartData(data, "peopleVaccinated", c, onlyEligible ? eligiblePopulation[c] : population[c]),
@@ -257,7 +257,7 @@ function AllCharts() {
           </div>
           <div className="card">
             {MasterChart(
-              "Fully Vaccinated",
+              "Fully vaccinated",
               local.map((c) => ({
                 name: c,
                 data: chartData(
