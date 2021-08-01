@@ -11,18 +11,30 @@ async function uploadFile(data, fileName) {
 }
 
 const mungeCovid19TrackerData = (data, area) => {
-  var lastWeek = [0, 0, 0, 0, 0, 0, 0];
+  var lastWeekCases = [0, 0, 0, 0, 0, 0, 0];
+  var lastWeekPeopleVaccinated = [0, 0, 0, 0, 0, 0, 0, 0];
+  var lastWeekPeopleFullyVaccinated = [0, 0, 0, 0, 0, 0, 0, 0];
+
   return {
     [area]: data.data.map((day) => {
-      lastWeek.shift();
-      lastWeek.push(day.change_cases);
+      var peopleVaccinated = day.total_vaccinations - day.total_vaccinated;
+      lastWeekCases.shift();
+      lastWeekPeopleVaccinated.shift();
+      lastWeekPeopleFullyVaccinated.shift();
+
+      lastWeekCases.push(day.change_cases);
+      lastWeekPeopleVaccinated.push(peopleVaccinated);
+      lastWeekPeopleFullyVaccinated.push(day.total_vaccinated);
+
       return {
         date: Date.parse(day.date),
         dateString: day.date,
-        peopleVaccinated: day.total_vaccinations - day.total_vaccinated,
+        peopleVaccinated: peopleVaccinated,
+        changePeopleVaccinatedPastWeek: lastWeekPeopleVaccinated[7] - lastWeekPeopleVaccinated[0],
         peopleFullyVaccinated: day.total_vaccinated,
+        changePeopleFullyVaccinatedPastWeek: lastWeekPeopleFullyVaccinated[7] - lastWeekPeopleFullyVaccinated[0],
         changeCases: day.change_cases,
-        changeCasesPastWeek: Math.round(lastWeek.reduce((a, b) => a + b, 0)),
+        changeCasesPastWeek: Math.round(lastWeekCases.reduce((a, b) => a + b, 0)),
         activeCases:
           day.total_cases - day.total_fatalities - day.total_recoveries,
       };
