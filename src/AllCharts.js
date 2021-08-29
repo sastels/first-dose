@@ -255,6 +255,7 @@ function AllCharts() {
               onlyEligible ? 100 : null
             )}
           </div>
+
           <div className="card">
             {MasterChart(
               "Fully vaccinated",
@@ -272,6 +273,43 @@ function AllCharts() {
               onlyEligible ? 100 : null
             )}
           </div>
+
+          <div className="card">
+            {MasterChart(
+              "Weekly increase first dose",
+              local.map((c) => ({
+                name: c,
+                data: chartData(
+                  data,
+                  "changePeopleVaccinatedPastWeek",
+                  c,
+                  onlyEligible ? eligiblePopulation[c] : population[c]
+                ),
+              })),
+              1,
+              "percent",
+              onlyEligible ? null : null
+            )}
+          </div>
+
+          <div className="card">
+            {MasterChart(
+              "Weekly increase fully vaccinated",
+              local.map((c) => ({
+                name: c,
+                data: chartData(
+                  data,
+                  "changePeopleFullyVaccinatedPastWeek",
+                  c,
+                  onlyEligible ? eligiblePopulation[c] : population[c]
+                ),
+              })),
+              1,
+              "percent",
+              onlyEligible ? null : null
+            )}
+          </div>
+
         </div>
       </div>
 
