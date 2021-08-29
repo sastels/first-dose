@@ -26,7 +26,7 @@ const population = {
   "United States": 334438269,
   Canada: 38131204, // estimate from covid19tracker.ca
   Ontario: 14789821, // estimate from covid19tracker.ca
-  Ottawa: 1067022 // was 1057022 // estimate from OPH vaccination dashboard
+  Ottawa: 1057022 // was 1057022 // estimate from OPH vaccination dashboard
 };
 
 /*
@@ -44,9 +44,9 @@ Ottawa: 991,725
 12+: 0.8669994202
 */
 const eligiblePopulation = {
-  Canada: 0.86657980511 * population.Canada,
-  Ontario: 0.86951625442 * population.Ontario,
-  Ottawa: 0.8669994202 * population.Ottawa
+  Canada: 0.87157980511 * population.Canada,
+  Ontario: 0.87451625442 * population.Ontario,
+  Ottawa: 0.8809994202 * population.Ottawa
 };
 
 
