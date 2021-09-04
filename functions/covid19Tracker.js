@@ -2,6 +2,7 @@
 
 const fetch = require("node-fetch");
 const { bucket } = require("./config");
+// const util = require('util')
 
 async function uploadFile(data, fileName) {
   const file = bucket.file(fileName);
@@ -17,21 +18,30 @@ const mungeCovid19TrackerData = (data, area) => {
 
   return {
     [area]: data.data.map((day) => {
-      var peopleVaccinated = day.total_vaccinations - day.total_vaccinated;
+      var totalVaccinations = day.total_vaccinations
+      var totalVaccinated = day.total_vaccinated
+      if (day.date === "2021-07-28") {
+        totalVaccinations += 4750 - 156
+        totalVaccinated += 3950 - 138
+      } else if (day.date >= "2021-07-29") {
+        totalVaccinations -= (30400 - 4750 - 4272)
+        totalVaccinated -= (13635 - 3950 - 3359)
+      }
+       var peopleVaccinated = totalVaccinations - totalVaccinated;
       lastWeekCases.shift();
       lastWeekPeopleVaccinated.shift();
       lastWeekPeopleFullyVaccinated.shift();
 
       lastWeekCases.push(day.change_cases);
       lastWeekPeopleVaccinated.push(peopleVaccinated);
-      lastWeekPeopleFullyVaccinated.push(day.total_vaccinated);
+      lastWeekPeopleFullyVaccinated.push(totalVaccinated);
 
       return {
         date: Date.parse(day.date),
         dateString: day.date,
         peopleVaccinated: peopleVaccinated,
         changePeopleVaccinatedPastWeek: lastWeekPeopleVaccinated[7] - lastWeekPeopleVaccinated[0],
-        peopleFullyVaccinated: day.total_vaccinated,
+        peopleFullyVaccinated: totalVaccinated,
         changePeopleFullyVaccinatedPastWeek: lastWeekPeopleFullyVaccinated[7] - lastWeekPeopleFullyVaccinated[0],
         changeCases: day.change_cases,
         changeCasesPastWeek: Math.round(lastWeekCases.reduce((a, b) => a + b, 0)),
@@ -68,6 +78,7 @@ const getOttawaData = () => {
     .then((res) => res.json())
     .then((json) => mungeCovid19TrackerData(json, "Ottawa"))
     .then((data) => {
+      // console.log(util.inspect(data, { maxArrayLength: null }))
       uploadFile(data, "covid19_tracker_ottawa.json");
     });
 };
