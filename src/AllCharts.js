@@ -203,7 +203,6 @@ function AllCharts() {
               null
             )}
           </div>
-
         </div>
       </div>
 
@@ -223,6 +222,42 @@ function AllCharts() {
         1,
         "number"
       )}
+
+      <div className="cards">
+        <div className="card">
+          {MasterChart(
+            "Hospitalized",
+            local.map((c) => ({
+              name: c,
+              data: chartData(data, "hospitalized", c, population[c], 0, 100000),
+            })),
+            1,
+            "number",
+            null
+          )}
+        </div>
+
+        <div className="card">
+          {MasterChart(
+            "ICU",
+            local.map((c) => ({
+              name: c,
+              data: chartData(
+                data,
+                "icu",
+                c,
+                population[c],
+                0,
+                100000
+              ),
+            })),
+            1,
+            "number",
+            null
+          )}
+        </div>
+      </div>
+
     </div>
   );
 }
