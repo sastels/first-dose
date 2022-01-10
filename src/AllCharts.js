@@ -124,7 +124,7 @@ function AllCharts() {
     <div>
       <div style={{ marginBottom: 50 }}>
         <Typography variant="h5" component="h2">
-          Coverage and week over week ({updated})
+          Current and week over week ({updated})
         </Typography>
         <div className="card">
           <DoseTable data={data} keys={local} population={population} />
