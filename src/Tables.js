@@ -16,6 +16,8 @@ const DoseTable = (props) => {
             <TableCell></TableCell>
             <TableCell>First dose</TableCell>
             <TableCell>Fully vaccinated</TableCell>
+            <TableCell>Hospitalized</TableCell>
+            <TableCell>ICU</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -30,7 +32,7 @@ const DoseTable = (props) => {
                       population[key]
                     ).toFixed(1)}{" "}
                     % (+
-                      {(
+                    {(
                       (data[key].slice(-1)[0].changePeopleVaccinatedPastWeek * 100) /
                       population[key]
                     ).toFixed(1)}{" "}
@@ -42,11 +44,32 @@ const DoseTable = (props) => {
                       population[key]
                     ).toFixed(1)}{" "}
                     % (+
-                      {(
+                    {(
                       (data[key].slice(-1)[0].changePeopleFullyVaccinatedPastWeek * 100) /
                       population[key]
                     ).toFixed(1)}{" "}
                     %)
+                  </TableCell>
+                  <TableCell>
+                    {(
+                      (data[key].slice(-1)[0].hospitalized)
+                    ).toFixed(0)}{" "}
+                    (+
+                    {(
+                      (data[key].slice(-1)[0].changeHospitalized)
+                    ).toFixed(0)}
+                    )
+                  </TableCell>
+
+                  <TableCell>
+                    {(
+                      (data[key].slice(-1)[0].icu)
+                    ).toFixed(0)}{" "}
+                    (+
+                    {(
+                      (data[key].slice(-1)[0].changeICU)
+                    ).toFixed(0)}
+                    )
                   </TableCell>
                 </TableRow>
               )

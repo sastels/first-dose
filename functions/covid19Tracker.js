@@ -15,11 +15,17 @@ const mungeCovid19TrackerData = (data, area) => {
   var lastWeekCases = [0, 0, 0, 0, 0, 0, 0];
   var lastWeekPeopleVaccinated = [0, 0, 0, 0, 0, 0, 0, 0];
   var lastWeekPeopleFullyVaccinated = [0, 0, 0, 0, 0, 0, 0, 0];
+  var lastWeekPeopleBoosted = [0, 0, 0, 0, 0, 0, 0, 0];
+  var lastWeekHospitalized = [0, 0, 0, 0, 0, 0, 0, 0];
+  var lastWeekICU = [0, 0, 0, 0, 0, 0, 0, 0];
 
   return {
     [area]: data.data.map((day) => {
       var totalVaccinations = day.total_vaccinations
       var totalVaccinated = day.total_vaccinated
+      var totalBoosted = day.total_boosters_1
+      var hospitalized = day.total_hospitalizations
+      var icu = day.total_criticals
       if (day.date === "2021-07-28") {
         totalVaccinations += 4750 - 156
         totalVaccinated += 3950 - 138
@@ -27,14 +33,20 @@ const mungeCovid19TrackerData = (data, area) => {
         totalVaccinations -= (30400 - 4750 - 4272)
         totalVaccinated -= (13635 - 3950 - 3359)
       }
-       var peopleVaccinated = totalVaccinations - totalVaccinated;
+      var peopleVaccinated = totalVaccinations - totalVaccinated - totalBoosted;
       lastWeekCases.shift();
       lastWeekPeopleVaccinated.shift();
       lastWeekPeopleFullyVaccinated.shift();
+      lastWeekPeopleBoosted.shift();
+      lastWeekHospitalized.shift();
+      lastWeekICU.shift();
 
       lastWeekCases.push(day.change_cases);
       lastWeekPeopleVaccinated.push(peopleVaccinated);
       lastWeekPeopleFullyVaccinated.push(totalVaccinated);
+      lastWeekPeopleBoosted.push(totalBoosted);
+      lastWeekHospitalized.push(hospitalized);
+      lastWeekICU.push(icu);
 
       return {
         date: Date.parse(day.date),
@@ -43,8 +55,14 @@ const mungeCovid19TrackerData = (data, area) => {
         changePeopleVaccinatedPastWeek: lastWeekPeopleVaccinated[7] - lastWeekPeopleVaccinated[0],
         peopleFullyVaccinated: totalVaccinated,
         changePeopleFullyVaccinatedPastWeek: lastWeekPeopleFullyVaccinated[7] - lastWeekPeopleFullyVaccinated[0],
+        peopleBoosted: totalBoosted,
+        changePeopleBoosted: lastWeekPeopleBoosted[7] - lastWeekPeopleBoosted[0],
         changeCases: day.change_cases,
         changeCasesPastWeek: Math.round(lastWeekCases.reduce((a, b) => a + b, 0)),
+        hospitalized: day.total_hospitalizations,
+        changeHospitalized: lastWeekHospitalized[7] - lastWeekHospitalized[0],
+        icu: day.total_criticals,
+        changeICU: lastWeekICU[7] - lastWeekICU[0],
         activeCases:
           day.total_cases - day.total_fatalities - day.total_recoveries,
       };
@@ -83,9 +101,9 @@ const getOttawaData = () => {
     });
 };
 
+// getCanadaData();
 // getOntarioData();
 // getOttawaData();
-// getCanadaData();
 
 exports.getOntarioData = getOntarioData;
 exports.getOttawaData = getOttawaData;
