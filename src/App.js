@@ -14,10 +14,7 @@ function App() {
       </div>
 
       <Typography varient="body1">
-        Data from{" "}
-        <a href="https://github.com/owid/covid-19-data">Our World in Data</a>
-        {" and "}
-        <a href="https://api.covid19tracker.ca">COVID-19 Tracker Canada</a>
+        Data from <a href="https://api.covid19tracker.ca">COVID-19 Tracker Canada</a>
       </Typography>
       <br />
       <Typography varient="body1">

@@ -71,8 +71,6 @@ const DoseTable = (props) => {
                     ).toFixed(0)}
                     )
                   </TableCell>
-
-
                 </TableRow>
               )
           )}
