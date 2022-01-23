@@ -120,6 +120,8 @@ function AllCharts() {
   //   else return 0;
   // };
 
+  // const dec2021 = 1638334800000
+  const dec2021 = 1638291600000
   return (
     <div>
       <div style={{ marginBottom: 50 }}>
@@ -207,7 +209,7 @@ function AllCharts() {
       </div>
 
       {MasterChart(
-        "New cases this week per 100,000",
+        "New cases this week per 100K",
         ["Canada", "Ontario", "Ottawa"].map((c) => ({
           name: c.startsWith("Ottawa") ? "Ottawa" : c,
           data: chartData(
@@ -215,7 +217,7 @@ function AllCharts() {
             "changeCasesPastWeek",
             c,
             population[c],
-            0,
+            dec2021,
             100000
           ),
         })),
@@ -226,10 +228,10 @@ function AllCharts() {
       <div className="cards">
         <div className="card">
           {MasterChart(
-            "Hospitalized",
+            "Hospitalized per 100K",
             local.map((c) => ({
               name: c,
-              data: chartData(data, "hospitalized", c, population[c], 0, 100000),
+              data: chartData(data, "hospitalized", c, population[c], dec2021, 100000),
             })),
             1,
             "number",
@@ -239,15 +241,16 @@ function AllCharts() {
 
         <div className="card">
           {MasterChart(
-            "ICU",
+            "ICU per 100K",
             local.map((c) => ({
               name: c,
               data: chartData(
                 data,
+
                 "icu",
                 c,
                 population[c],
-                0,
+                dec2021,
                 100000
               ),
             })),
