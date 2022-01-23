@@ -9,7 +9,7 @@ function App() {
         Ottawa Covid Statistics
       </Typography>
 
-      <div style={{ margin: 50 }} className="App">
+      <div className="App">
         <AllCharts />
       </div>
 
